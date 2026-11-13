@@ -51,9 +51,11 @@ struct ContentView: View {
 
     private var login: some View {
         VStack(spacing: 20) {
-            Image(systemName: "music.note.list")
-                .font(.system(size: 64))
-                .foregroundStyle(.green)
+            Image("Logo")
+                .resizable()
+                .frame(width: 120, height: 120)
+                .shadow(color: .green.opacity(0.35), radius: 20)
+                .accessibilityHidden(true)
             Text("Connect your Spotify account to see lyrics on CarPlay.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)

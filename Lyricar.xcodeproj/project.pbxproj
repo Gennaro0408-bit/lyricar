@@ -34,6 +34,7 @@
 		ECFEE63A5B1168301BDDC18F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F0F25F367C02AB9FAECF66 /* Config.swift */; };
 		EDC751E6A1268D8A0160CCD9 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6237D6FC1B4AC90474E6E15 /* Keychain.swift */; };
 		FEBBFF35C7B875A5A9111D6C /* ResyncIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5322F60619B60B6294D04526 /* ResyncIntent.swift */; };
+		FF26494DA636947AC65F9AEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657E20B24E5062934B4127F1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		5322F60619B60B6294D04526 /* ResyncIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResyncIntent.swift; sourceTree = "<group>"; };
 		5650C4DAEE701F5026972133 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		64EFD3E57C9F92FF18097DB7 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
+		657E20B24E5062934B4127F1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B84716E141BD0617CE78171 /* LyricsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LyricsWidget.entitlements; sourceTree = "<group>"; };
 		79E500D06D1577464887A011 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		82AFA2C47D8E0D544954AFAA /* SilentAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilentAudio.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				64EFD3E57C9F92FF18097DB7 /* AppShortcuts.xcstrings */,
+				657E20B24E5062934B4127F1 /* Assets.xcassets */,
 				AA7A0AB3142025F08E183CBA /* ContentView.swift */,
 				F3DF4B34E89A86991D9A131B /* DiagnosticsView.swift */,
 				91762BB273B5D880BACFB9A7 /* EventLog.swift */,
@@ -249,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A337377258E6E606FFFC969 /* AppShortcuts.xcstrings in Resources */,
+				FF26494DA636947AC65F9AEE /* Assets.xcassets in Resources */,
 				867A511870FF0654E1B87E54 /* InfoPlist.xcstrings in Resources */,
 				A9F0FB38056E35506056B125 /* Localizable.xcstrings in Resources */,
 			);

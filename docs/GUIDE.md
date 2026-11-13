@@ -1,3 +1,5 @@
+<img src="images/logo.png" width="96" align="right" alt="Lyricar logo">
+
 # Lyricar: the complete guide
 
 This guide explains **how Lyricar works** and walks you through **every step of the setup**, including where to find each ID. It also covers the most common problems.

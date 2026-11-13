@@ -1,10 +1,41 @@
-# Lyricar 🚗🎤
+<p align="center">
+  <img src="docs/images/logo.png" width="140" alt="Lyricar logo">
+</p>
 
-**Synced Spotify lyrics on your CarPlay dashboard.**
+<h1 align="center">Lyricar</h1>
+
+<p align="center"><b>Synced Spotify lyrics on your CarPlay dashboard.</b></p>
+
+<p align="center">
+  <img alt="iOS 26+" src="https://img.shields.io/badge/iOS-26%2B-black?logo=apple">
+  <img alt="CarPlay" src="https://img.shields.io/badge/CarPlay-Live%20Activity-1ED760">
+  <img alt="Swift" src="https://img.shields.io/badge/Swift-SwiftUI-F05138?logo=swift&logoColor=white">
+  <img alt="Languages" src="https://img.shields.io/badge/languages-EN%20%7C%20IT-blue">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-lightgrey"></a>
+</p>
+
+<p align="center"><i>🇮🇹 <a href="docs/GUIDA.md">Guida completa in italiano</a> · riassunto in fondo</i></p>
 
 Lyricar is an iOS app that shows the lyrics of the song currently playing on Spotify on **CarPlay**, line by line and in sync with the music. The lyrics appear in a Live Activity, with a widget as an alternative.
 
-<p align="center"><i>🇮🇹 <a href="docs/GUIDA.md">Guida completa in italiano</a> · riassunto in fondo</i></p>
+<p align="center">
+  <img src="docs/images/login_en.png" width="230" alt="Sign-in screen">
+  &nbsp;
+  <img src="docs/images/player_en.png" width="230" alt="Lyrics playing, Driving Mode on (English)">
+  &nbsp;
+  <img src="docs/images/player_it.png" width="230" alt="Lyrics playing, Driving Mode on (Italian)">
+</p>
+<p align="center">
+  <sub>Sign in · Lyrics in sync with Driving Mode on · Same screen in Italian</sub>
+</p>
+
+<p align="center">
+  <img src="docs/images/dynamic_island_en.png" width="460" alt="Current lyric line in the Dynamic Island">
+  <br>
+  <sub>The current line also follows you in the Dynamic Island, the Lock Screen and on CarPlay through a Live Activity.</sub>
+</p>
+
+<sub>Screenshots use Lyricar's built-in demo mode, with a made-up song and lyrics.</sub>
 
 > [!WARNING]
 > **Drive safely.** Reading while driving is distracting. Treat Lyricar like a navigation app and only glance at it, or leave it to your passengers.
@@ -78,7 +109,8 @@ App/        iOS app: Spotify login, lyrics engine, Driving Mode, diagnostics UI
 Widget/     WidgetKit widget + Live Activity UI
 Shared/     Code shared by app & widget: Spotify API, LRCLIB client, LRC parser, Keychain, settings
 Config/     Build settings (Base.xcconfig is committed; your Local.xcconfig is git-ignored)
-docs/       Guide (English: GUIDE.md · Italiano: GUIDA.md)
+docs/       Guides (English: GUIDE.md · Italiano: GUIDA.md) and images
+tools/      render-logo.swift: regenerates the logo and app icon
 project.yml XcodeGen project definition (Lyricar.xcodeproj is generated from it)
 ```
 
@@ -87,6 +119,16 @@ If you change `project.yml`, regenerate the Xcode project with [XcodeGen](https:
 ```sh
 brew install xcodegen
 xcodegen generate
+```
+
+### Demo mode and screenshots
+
+Launch the app with the `-LyricarDemo` argument (in Xcode: **Product → Scheme → Edit Scheme → Run → Arguments**) to show a made-up song with synced lyrics, without signing in to Spotify. It's what the screenshots above use.
+
+The logo and app icon are drawn in SwiftUI. To regenerate them, run:
+
+```sh
+swift tools/render-logo.swift
 ```
 
 ## Known limitations

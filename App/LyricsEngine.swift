@@ -50,6 +50,25 @@ final class LyricsEngine: ObservableObject {
         }
         keepAlive.onEvent = { EventLog.log("Audio: \($0)") }
         locationKeepAlive.onEvent = { EventLog.log("Location: \($0)") }
+        if Self.isDemo { setUpDemo() }
+    }
+
+    // MARK: Modalità demo (solo per screenshot: avvia con l'argomento -LyricarDemo)
+
+    /// Brano e testo inventati, così gli screenshot non contengono testi protetti da copyright
+    static let isDemo = ProcessInfo.processInfo.arguments.contains("-LyricarDemo")
+
+    private func setUpDemo() {
+        loggedIn = true
+        let track = Track(id: "demo", name: "Open Road Tonight", artist: "The Night Drivers",
+                          album: "Demo", durationMs: 184_000)
+        nowPlaying = NowPlaying(track: track, progressMs: 13_500, isPlaying: true, fetchedAt: Date())
+        songStart = Date().addingTimeInterval(-13.5)
+        lines = [
+            "Headlights on the empty road", "Radio playing something old",
+            "Every mile a line we know", "Singing while the city glows",
+            "Windows down, the night is ours", "Counting songs instead of stars",
+        ].enumerated().map { LyricLine(time: Double($0.offset) * 4.5, text: $0.element) }
     }
 
     func resetAllOffsets() {
@@ -69,7 +88,7 @@ final class LyricsEngine: ObservableObject {
         isForeground = foreground
         if foreground {
             if autoStart && loggedIn && !drivingMode { startDriving() }
-            if drivingMode { locationKeepAlive.start() } // es. permesso concesso dopo il primo avvio
+            if drivingMode && !Self.isDemo { locationKeepAlive.start() } // es. permesso concesso dopo il primo avvio
             runLoop()
         } else if !drivingMode {
             loop?.cancel(); loop = nil
@@ -78,8 +97,9 @@ final class LyricsEngine: ObservableObject {
 
     func startDriving() {
         guard loggedIn else { return }
-        EventLog.log("▶︎ Driving Mode ON")
         drivingMode = true
+        if Self.isDemo { startActivity(); runLoop(); return } // niente audio né posizione in demo
+        EventLog.log("▶︎ Driving Mode ON")
         keepAlive.start()
         locationKeepAlive.start()
         startActivity()
@@ -125,7 +145,7 @@ final class LyricsEngine: ObservableObject {
     // MARK: Spotify
 
     private func poll() async {
-        guard loggedIn else { return }
+        guard loggedIn, !Self.isDemo else { return }
         // Controlli di salute: un buco tra due letture indica che iOS ha sospeso l'app
         let gap = Date().timeIntervalSince(lastPollOK)
         if gap > 15 { EventLog.log("⚠️ No updates for \(Int(gap)) s (app suspended?)") }

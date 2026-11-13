@@ -1,3 +1,5 @@
+<img src="images/logo.png" width="96" align="right" alt="Lyricar logo">
+
 # Lyricar: la guida completa
 
 Questa guida spiega **come funziona Lyricar** e ti accompagna **passo passo nella configurazione**, compreso dove trovare ogni codice. Alla fine trovi la soluzione ai problemi più comuni.
