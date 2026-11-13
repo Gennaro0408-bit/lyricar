@@ -2,6 +2,7 @@
 // Uso:  swift tools/render-logo.swift
 // Output: App/Assets.xcassets/AppIcon.appiconset/AppIcon.png (1024×1024, a tutta superficie)
 //         docs/images/logo.png (512×512, con angoli arrotondati per il README)
+//         docs/images/social-preview.png (1280×640, anteprima del repository su GitHub)
 
 import SwiftUI
 import AppKit
@@ -92,9 +93,48 @@ struct Logo: View {
     }
 }
 
+
+/// Anteprima per i link condivisi (GitHub → Settings → Social preview)
+struct SocialPreview: View {
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: [night, deep], startPoint: .topLeading, endPoint: .bottomTrailing)
+            RadialGradient(colors: [green.opacity(0.22), .clear], center: UnitPoint(x: 0.25, y: 0.5),
+                           startRadius: 0, endRadius: 520)
+            HStack(spacing: 64) {
+                Logo()
+                    .scaleEffect(0.4)
+                    .frame(width: 410, height: 410)
+                    .clipShape(RoundedRectangle(cornerRadius: 92, style: .continuous))
+                    .shadow(color: green.opacity(0.35), radius: 40)
+                VStack(alignment: .leading, spacing: 18) {
+                    Text("Lyricar")
+                        .font(.system(size: 112, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text("Synced Spotify lyrics\non your CarPlay dashboard")
+                        .font(.system(size: 44, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.78))
+                        .lineSpacing(6)
+                    HStack(spacing: 14) {
+                        ForEach(["iOS 26", "CarPlay", "Live Activity", "EN · IT"], id: \.self) { tag in
+                            Text(tag)
+                                .font(.system(size: 26, weight: .semibold, design: .rounded))
+                                .foregroundStyle(green)
+                                .padding(.horizontal, 18).padding(.vertical, 8)
+                                .background(Capsule().stroke(green.opacity(0.6), lineWidth: 2))
+                        }
+                    }
+                    .padding(.top, 12)
+                }
+            }
+        }
+        .frame(width: 1280, height: 640)
+    }
+}
+
 @MainActor
-func save(_ view: some View, size: CGFloat, to path: String) {
-    let renderer = ImageRenderer(content: view.frame(width: size, height: size))
+func save(_ view: some View, size: CGFloat, height: CGFloat? = nil, to path: String) {
+    let renderer = ImageRenderer(content: view.frame(width: size, height: height ?? size))
     renderer.scale = 1
     guard let cg = renderer.cgImage else { fatalError("render fallito") }
     let rep = NSBitmapImageRep(cgImage: cg)
@@ -111,4 +151,5 @@ MainActor.assumeIsolated {
     save(Logo().scaleEffect(0.5).frame(width: 512, height: 512)
             .clipShape(RoundedRectangle(cornerRadius: 115, style: .continuous)),
          size: 512, to: "docs/images/logo.png")
+    save(SocialPreview(), size: 1280, height: 640, to: "docs/images/social-preview.png")
 }
