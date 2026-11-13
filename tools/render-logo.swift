@@ -133,10 +133,17 @@ struct SocialPreview: View {
 }
 
 @MainActor
-func save(_ view: some View, size: CGFloat, height: CGFloat? = nil, to path: String) {
+func save(_ view: some View, size: CGFloat, height: CGFloat? = nil, opaque: Bool = false, to path: String) {
     let renderer = ImageRenderer(content: view.frame(width: size, height: height ?? size))
     renderer.scale = 1
-    guard let cg = renderer.cgImage else { fatalError("render fallito") }
+    guard var cg = renderer.cgImage else { fatalError("render fallito") }
+    if opaque {
+        // L'icona per l'App Store non può avere il canale alpha: la ridisegno su un contesto senza trasparenza
+        let ctx = CGContext(data: nil, width: cg.width, height: cg.height, bitsPerComponent: 8, bytesPerRow: 0,
+                            space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+        ctx.draw(cg, in: CGRect(x: 0, y: 0, width: cg.width, height: cg.height))
+        cg = ctx.makeImage()!
+    }
     let rep = NSBitmapImageRep(cgImage: cg)
     let url = URL(fileURLWithPath: path)
     try! FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -146,7 +153,7 @@ func save(_ view: some View, size: CGFloat, height: CGFloat? = nil, to path: Str
 
 MainActor.assumeIsolated {
     // Icona: a tutta superficie e senza trasparenza (iOS applica da solo gli angoli)
-    save(Logo(), size: 1024, to: "App/Assets.xcassets/AppIcon.appiconset/AppIcon.png")
+    save(Logo(), size: 1024, opaque: true, to: "App/Assets.xcassets/AppIcon.appiconset/AppIcon.png")
     // Logo per il README: ridotto e con gli angoli arrotondati
     save(Logo().scaleEffect(0.5).frame(width: 512, height: 512)
             .clipShape(RoundedRectangle(cornerRadius: 115, style: .continuous)),

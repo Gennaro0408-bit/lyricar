@@ -87,7 +87,8 @@ Apps that don't come from the App Store must be **signed with a certificate** ti
 | **Xcode + free Apple ID** | Mac | 7 days | Press ▶︎ Run again every week |
 | **[AltStore](https://altstore.io) / [SideStore](https://sidestore.io)** | Mac or Windows PC for setup, free Apple ID | 7 days | **Automatic** |
 | **[Sideloadly](https://sideloadly.io)** | Mac or Windows PC, free or paid Apple ID | 7 days / 1 year | Reinstall the `.ipa` |
-| TestFlight, signing services… | — | Varies | See the [guide](docs/GUIDE.md#other-methods) |
+| **[TestFlight](docs/GUIDE.md#method-d-testflight)** | The TestFlight app (the owner needs a paid account) | 90 days per build | Update from TestFlight |
+| Signing services, enterprise certificates… | — | Varies | Not recommended. See the [guide](docs/GUIDE.md#other-methods) |
 
 👉 **Step-by-step instructions for every method:** [docs/GUIDE.md](docs/GUIDE.md#setup-step-by-step) · 🇮🇹 [docs/GUIDA.md](docs/GUIDA.md#configurazione-passo-passo)
 
@@ -140,7 +141,7 @@ Widget/     WidgetKit widget + Live Activity UI
 Shared/     Code shared by app & widget: Spotify API, LRCLIB client, LRC parser, Keychain, settings
 Config/     Build settings (Base.xcconfig is committed; your Local.xcconfig is git-ignored)
 docs/       Guides (English: GUIDE.md · Italiano: GUIDA.md) and images
-tools/      render-logo.swift (logo and icon) · build-ipa.sh (unsigned .ipa for sideloading)
+tools/      render-logo.swift (logo and icon) · build-ipa.sh (unsigned .ipa) · testflight.sh (TestFlight upload)
 project.yml XcodeGen project definition (Lyricar.xcodeproj is generated from it)
 ```
 

@@ -14,6 +14,7 @@ This guide explains **how Lyricar works** and walks you through **every step of 
      - [Method A: Xcode (paid or free Apple account)](#method-a-xcode-paid-or-free-apple-account)
      - [Method B: AltStore or SideStore](#method-b-altstore-or-sidestore)
      - [Method C: Sideloadly](#method-c-sideloadly)
+     - [Method D: TestFlight](#method-d-testflight)
      - [Other methods](#other-methods)
    - [Step 3: First launch](#step-3-first-launch)
    - [Step 4: Set it up for the car](#step-4-set-it-up-for-the-car)
@@ -163,7 +164,8 @@ Apple only lets apps outside the App Store run if they are **signed with a certi
 | **[A. Xcode + free Apple ID](#method-a-xcode-paid-or-free-apple-account)** | Mac + Xcode | Free personal certificate | **7 days**, then rebuild | Weekly |
 | **[B. AltStore or SideStore](#method-b-altstore-or-sidestore)** | Mac or Windows PC (for setup), free Apple ID | Free personal certificate | **7 days, renewed automatically** | Automatic in the background |
 | **[C. Sideloadly](#method-c-sideloadly)** | Mac or Windows PC, free or paid Apple ID | Free (7 days) or paid (1 year) | **7 days** or **1 year** | Weekly with a free ID |
-| **[Other methods](#other-methods)** | — | TestFlight, signing services… | Varies | Read the notes |
+| **[D. TestFlight](#method-d-testflight)** | The **TestFlight** app. The person sharing it needs a paid account. | Apple's (App Store) | **90 days** per build | Install updates from TestFlight |
+| **[Other methods](#other-methods)** | — | Signing services, enterprise certificates… | Varies | Read the notes |
 
 > **Which one?** If you have a Mac, **Method A** is the simplest and the only one tested end to end. With a paid account you install once a year. Without a Mac, use **Method B**: AltStore or SideStore renew the app for you every week.
 
@@ -290,9 +292,38 @@ With a **free Apple ID** the app lasts **7 days**: repeat the steps above (your 
 
 > This method has not yet been tested end to end with Lyricar either.
 
+### Method D: TestFlight
+
+[TestFlight](https://developer.apple.com/testflight/) is Apple's official beta-testing app. Whoever has a **paid Apple Developer account** uploads Lyricar once, and the testers install it from the TestFlight app, **like any App Store app**: no computer, no weekly renewal. Each build lasts **90 days**, and updates arrive in TestFlight.
+
+The TestFlight build has **no built-in Client ID**: on first launch each tester pastes the Client ID of their own Spotify app (see [Step 3](#step-3-first-launch)).
+
+**For testers**
+
+1. Install **TestFlight** from the App Store.
+2. Open the invitation link or email you received and tap **Accept / Install**.
+3. Go to [Step 3: First launch](#step-3-first-launch).
+
+**For the account owner (uploading the build)**
+
+1. On [App Store Connect](https://appstoreconnect.apple.com) → **Apps** → **+** → **New App**: platform iOS, a name (it must be unique on the App Store, for example *Lyricar – CarPlay Lyrics*), language, the **same Bundle ID** as `APP_BUNDLE_ID`, and any SKU.
+2. On the Mac, with [Method A](#method-a-xcode-paid-or-free-apple-account) already set up, run:
+   ```sh
+   sh tools/testflight.sh upload
+   ```
+   The script builds Lyricar **without your Client ID**, signs it for the App Store and uploads it. Every upload gets a new build number automatically.
+3. After 5–30 minutes the build appears in App Store Connect → your app → **TestFlight**.
+4. Add testers:
+   - **Internal testers** (up to 100): people added to your team in **Users and Access**. **No review** is needed, and they can install right away.
+   - **External testers** (up to 10,000, also via a public link): the first build goes through Apple's **Beta App Review**.
+
+> [!WARNING]
+> **External testing may be rejected.** To stay in sync in the background, Lyricar uses silent audio and background location, and Apple's review usually rejects these techniques when they're only used to stay awake. Internal testing doesn't go through review.
+
+> **Spotify limit:** in development mode a Spotify app accepts only the accounts listed in its User Management, and only a small number of them. That's why each tester should ideally create their **own** Spotify app and paste its Client ID. You can also add them to yours, up to that limit.
+
 ### Other methods
 
-- **TestFlight** (paid account). You can upload Lyricar to App Store Connect and invite friends as **internal testers**, up to 100 people who must be added to your team in App Store Connect. Builds last 90 days. Sharing with **external testers** requires Apple's beta review, which is likely to reject an app like this (see the [FAQ](#7-faq)).
 - **Paid "signing services" and shared enterprise certificates.** Some websites sell certificates that let you install any `.ipa` for a year. ⚠️ **Not recommended:** they are unofficial, Apple often revokes them (the app suddenly stops opening), and you're trusting a third party with an app that has access to your Spotify login.
 - **Building the `.ipa` yourself:** run `sh tools/build-ipa.sh` on a Mac. It creates `build/Lyricar.ipa` with no Client ID and no personal data, ready for AltStore, SideStore or Sideloadly.
 
@@ -393,6 +424,7 @@ It depends on the [installation method](#step-2-choose-how-to-install):
 | Xcode + free Apple ID | 7 days | Press ▶︎ Run in Xcode again |
 | AltStore / SideStore | 7 days | Automatic (AltStore: keep AltServer running on the same Wi-Fi) |
 | Sideloadly | 7 days (free) / 1 year (paid) | Install the `.ipa` again |
+| TestFlight | 90 days per build | The owner uploads a new build, and testers update from TestFlight |
 
 Your settings and Spotify login are kept when you renew.
 
@@ -411,6 +443,9 @@ Your settings and Spotify login are kept when you renew.
 
 **Can I see the lyrics without a Spotify Premium account?**
 You can *use* Lyricar with any Spotify account added in User Management. The Spotify app itself, however, must be **created** by a Premium account, which can be someone else's.
+
+**Can I share it with friends without them needing a computer?**
+Yes, with [TestFlight](#method-d-testflight) if you have a paid Apple Developer account. Add them as internal testers, and they install Lyricar from the TestFlight app.
 
 **Can I install it without a Mac?**
 Yes: use [AltStore or SideStore](#method-b-altstore-or-sidestore) from a Windows PC, or [Sideloadly](#method-c-sideloadly). Download the ready-made `.ipa` from the GitHub Releases page.
