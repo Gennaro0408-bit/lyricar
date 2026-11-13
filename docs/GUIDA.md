@@ -12,12 +12,13 @@ Questa guida spiega **come funziona Lyricar** e ti accompagna **passo passo nell
 2. [Cosa ti serve](#2-cosa-ti-serve)
 3. [Configurazione passo passo](#configurazione-passo-passo)
    - [Passo 1: Crea l'app Spotify e ottieni il Client ID](#passo-1-crea-lapp-spotify-e-ottieni-il-client-id)
-   - [Passo 2: Trova il tuo Team ID Apple](#passo-2-trova-il-tuo-team-id-apple)
-   - [Passo 3: Scegli un Bundle ID](#passo-3-scegli-un-bundle-id)
-   - [Passo 4: Configura il progetto](#passo-4-configura-il-progetto)
-   - [Passo 5: Installa sull'iPhone](#passo-5-installa-sulliphone)
-   - [Passo 6: Primo avvio](#passo-6-primo-avvio)
-   - [Passo 7: Preparalo per l'auto](#passo-7-preparalo-per-lauto)
+   - [Passo 2: Scegli come installare l'app](#passo-2-scegli-come-installare-lapp)
+     - [Metodo A: Xcode (account a pagamento o gratuito)](#metodo-a-xcode-account-a-pagamento-o-gratuito)
+     - [Metodo B: AltStore o SideStore](#metodo-b-altstore-o-sidestore)
+     - [Metodo C: Sideloadly](#metodo-c-sideloadly)
+     - [Altri metodi](#altri-metodi)
+   - [Passo 3: Primo avvio](#passo-3-primo-avvio)
+   - [Passo 4: Preparalo per l'auto](#passo-4-preparalo-per-lauto)
 4. [Usare l'app](#4-usare-lapp)
 5. [Risoluzione dei problemi](#5-risoluzione-dei-problemi)
 6. [Quanto dura l'app installata?](#6-quanto-dura-lapp-installata)
@@ -107,23 +108,23 @@ Non esiste un server di Lyricar e non ci sono statistiche d'uso.
 
 ## 2. Cosa ti serve
 
-- [ ] Un **Mac** con **Xcode 26** o successivo (gratis sul Mac App Store)
-- [ ] Un **iPhone** con **iOS 26** o successivo e un cavo USB
+**Sempre:**
+
+- [ ] Un **iPhone** con **iOS 26** o successivo
 - [ ] Un'auto con **CarPlay**, via cavo o wireless
-- [ ] Un abbonamento all'**Apple Developer Program**. Con un Apple ID gratuito in teoria funziona, ma l'app smette di funzionare dopo 7 giorni e gli App Group, che qui servono, potrebbero non essere disponibili.
 - [ ] Un **account Spotify**, più l'accesso a un account **Spotify Premium** per creare l'app Spotify (vedi il [Passo 1](#passo-1-crea-lapp-spotify-e-ottieni-il-client-id))
+- [ ] Un **Apple ID**, gratuito o con abbonamento all'Apple Developer Program
+
+**In base a come installi** (vedi il [Passo 2](#passo-2-scegli-come-installare-lapp)):
+
+- un **Mac con Xcode 26** (Metodo A), oppure
+- un **Mac o un PC Windows** per AltServer, per la configurazione iniziale di SideStore o per Sideloadly (Metodi B e C)
 
 ---
 
 ## Configurazione passo passo
 
-Raccoglierai tre valori e li scriverai in un unico file:
-
-| Valore | Esempio | Da dove arriva |
-|---|---|---|
-| `SPOTIFY_CLIENT_ID` | `1a2b3c4d5e6f…` (32 caratteri) | Dashboard sviluppatori Spotify ([Passo 1](#passo-1-crea-lapp-spotify-e-ottieni-il-client-id)) |
-| `DEVELOPMENT_TEAM` | `ABCDE12345` (10 caratteri) | Account Apple Developer ([Passo 2](#passo-2-trova-il-tuo-team-id-apple)) |
-| `APP_BUNDLE_ID` | `com.tuonome.lyricar` | Lo scegli tu ([Passo 3](#passo-3-scegli-un-bundle-id)) |
+Qualunque metodo scegli, si parte sempre creando la tua app Spotify (Passo 1). Poi scegli come mettere Lyricar sull'iPhone (Passo 2).
 
 ### Passo 1: Crea l'app Spotify e ottieni il Client ID
 
@@ -154,7 +155,36 @@ Il **Client ID** dice a Spotify quale app sta chiedendo l'accesso. **Non è un s
 > - **Membri di un piano Famiglia o Duo:** la casella potrebbe restare disattivata. Chiedi al **gestore del piano** di creare l'app con il suo account e di aggiungere *te* in **User Management**.
 > - **Va bene anche l'account Premium di un'altra persona.** Chi ha Premium crea l'app e aggiunge la tua email in User Management. Tu poi accedi a Lyricar con **il tuo** account e vedi **la tua** musica. Quella persona deve mantenere Premium e non cancellare l'app dalla sua dashboard.
 
-### Passo 2: Trova il tuo Team ID Apple
+### Passo 2: Scegli come installare l'app
+
+Apple permette di usare app che non vengono dall'App Store solo se sono **firmate con un certificato** legato a un account Apple. Il metodo che scegli decide quale certificato si usa e **per quanto tempo l'app funziona** prima di doverla rinnovare.
+
+| Metodo | Cosa serve | Certificato | L'app dura | Impegno |
+|---|---|---|---|---|
+| **[A. Xcode + account a pagamento](#metodo-a-xcode-account-a-pagamento-o-gratuito)** ⭐ | Mac + Xcode, Apple Developer Program (99 €/anno) | Il tuo certificato da sviluppatore | **1 anno** | Una volta sola |
+| **[A. Xcode + Apple ID gratuito](#metodo-a-xcode-account-a-pagamento-o-gratuito)** | Mac + Xcode | Certificato personale gratuito | **7 giorni**, poi va reinstallata | Ogni settimana |
+| **[B. AltStore o SideStore](#metodo-b-altstore-o-sidestore)** | Mac o PC Windows (per la configurazione), Apple ID gratuito | Certificato personale gratuito | **7 giorni, rinnovati in automatico** | Automatico in background |
+| **[C. Sideloadly](#metodo-c-sideloadly)** | Mac o PC Windows, Apple ID gratuito o a pagamento | Gratuito (7 giorni) o a pagamento (1 anno) | **7 giorni** o **1 anno** | Ogni settimana con l'ID gratuito |
+| **[Altri metodi](#altri-metodi)** | — | TestFlight, servizi di firma… | Dipende | Leggi le note |
+
+> **Quale scegliere?** Se hai un Mac, il **Metodo A** è il più semplice ed è l'unico provato dall'inizio alla fine. Con l'account a pagamento installi una volta all'anno. Senza Mac, usa il **Metodo B**: AltStore o SideStore rinnovano l'app per te ogni settimana.
+
+> [!NOTE]
+> **Gli Apple ID gratuiti hanno dei limiti:** le app durano 7 giorni, puoi avere al massimo **3 app installate così** contemporaneamente e registrare al massimo **10 App ID a settimana**. Lyricar ne usa 2 (l'app e il widget). Se l'App Group non è disponibile l'app funziona lo stesso, ma il **widget** non vede l'accesso a Spotify. La Live Activity su CarPlay non ne risente.
+
+### Metodo A: Xcode (account a pagamento o gratuito)
+
+Compili Lyricar dal codice sorgente e lo installi direttamente dal Mac. Scriverai tre valori in un unico file:
+
+| Valore | Esempio | Da dove arriva |
+|---|---|---|
+| `SPOTIFY_CLIENT_ID` | `1a2b3c4d5e6f…` (32 caratteri) | Dashboard sviluppatori Spotify ([Passo 1](#passo-1-crea-lapp-spotify-e-ottieni-il-client-id)) |
+| `DEVELOPMENT_TEAM` | `ABCDE12345` (10 caratteri) | Il tuo account Apple ([A1](#a1-trova-il-tuo-team-id-apple)) |
+| `APP_BUNDLE_ID` | `com.tuonome.lyricar` | Lo scegli tu ([A2](#a2-scegli-un-bundle-id)) |
+
+**A pagamento o gratuito?** Funzionano allo stesso modo. Con l'**Apple Developer Program** (99 €/anno) l'app dura **un anno**. Con un **Apple ID gratuito** basta aggiungerlo in Xcode → Impostazioni → Account: Xcode crea un *Personal Team*, ma l'app scade dopo **7 giorni** e dovrai premere di nuovo ▶︎ Run.
+
+#### A1. Trova il tuo Team ID Apple
 
 Il **Team ID** è un codice di 10 caratteri che identifica il tuo account sviluppatore Apple. Xcode lo usa per firmare l'app.
 
@@ -174,7 +204,7 @@ Già che ci sei, guarda la **Expiration Date** (data di scadenza) dell'abbonamen
 1. **Xcode → Impostazioni → Account.** Aggiungi il tuo Apple ID se non c'è.
 2. Apri un progetto qualsiasi, seleziona un target → **Signing & Capabilities** e scegli il tuo team. Il Team ID compare poi in **Build Settings → Development Team**.
 
-### Passo 3: Scegli un Bundle ID
+#### A2. Scegli un Bundle ID
 
 Il **Bundle ID** è l'identificativo unico dell'app, scritto "al contrario" come un dominio internet. **Lo inventi tu**, ma deve essere unico tra tutti gli sviluppatori Apple. Buoni esempi:
 
@@ -193,7 +223,7 @@ Usa solo lettere, numeri, punti e trattini. Lyricar ricava da solo gli altri ide
 
 Se più avanti Xcode dice che il Bundle ID *"is not available"* o *"already in use"*, scegline semplicemente un altro.
 
-### Passo 4: Configura il progetto
+#### A3. Configura il progetto
 
 1. Scarica il progetto:
    ```sh
@@ -218,7 +248,7 @@ Se più avanti Xcode dice che il Bundle ID *"is not available"* o *"already in u
 
 > **Redirect personalizzato (facoltativo):** se la tua app Spotify usa già un altro redirect, per esempio `miaapp://callback`, aggiungi `CALLBACK_SCHEME = miaapp` a `Local.xcconfig`. Il Redirect URI sulla dashboard Spotify deve essere sempre `<CALLBACK_SCHEME>://callback`.
 
-### Passo 5: Installa sull'iPhone
+#### A4. Compila e installa
 
 1. Fai doppio clic su **`Lyricar.xcodeproj`** per aprirlo in Xcode.
 2. Collega l'iPhone con il cavo, sbloccalo e, se te lo chiede, tocca **Autorizza**.
@@ -230,19 +260,59 @@ La prima volta Xcode registra i Bundle ID e l'App Group sul tuo account. È l'op
 
 Se l'iPhone dice *"Sviluppatore non autorizzato"*, vai in **Impostazioni → Generali → VPN e gestione dispositivi**, tocca il tuo account sviluppatore e poi **Autorizza**.
 
-### Passo 6: Primo avvio
+### Metodo B: AltStore o SideStore
+
+[AltStore](https://altstore.io) e [SideStore](https://sidestore.io) sono strumenti gratuiti che installano app con **il tuo Apple ID** e le **rinnovano in automatico** prima che scadano i 7 giorni. Non serve Xcode e non serve un Mac: va bene anche Windows.
+
+| | AltStore | SideStore |
+|---|---|---|
+| Configurazione | Installi **AltServer** su un Mac o PC Windows, poi AltStore sull'iPhone | Il computer serve **solo una volta**, per la configurazione |
+| Rinnovo settimanale | Automatico, quando l'iPhone e il computer con AltServer sono sulla **stessa rete Wi-Fi** | Automatico, **dal solo iPhone**, tramite un'app VPN locale |
+
+1. Installa AltStore o SideStore seguendo la guida ufficiale sul loro sito.
+2. Sull'iPhone scarica **`Lyricar.ipa`** dall'[ultima release](https://github.com/Gennaro0408-bit/lyricar/releases/latest) su GitHub.
+3. Apri AltStore o SideStore → **My Apps** → **+** e seleziona `Lyricar.ipa`.
+4. Se te lo chiede, inserisci il tuo Apple ID. Lo strumento firma Lyricar con il tuo certificato gratuito.
+5. Vai al [Passo 3: Primo avvio](#passo-3-primo-avvio). Questa versione non ha un Client ID incorporato, quindi Lyricar ti chiederà di **incollare il tuo Client ID Spotify**.
+
+> [!NOTE]
+> Questi strumenti cambiano Bundle ID e App Group dell'app per adattarli al tuo account. Lyricar se ne accorge da sola. Nel caso peggiore solo il **widget** non vede l'accesso a Spotify, mentre Live Activity e CarPlay continuano a funzionare.
+> Questo metodo **non è ancora stato provato dall'inizio alla fine** con Lyricar. Se qualcosa non va, apri una [segnalazione](https://github.com/Gennaro0408-bit/lyricar/issues).
+
+### Metodo C: Sideloadly
+
+[Sideloadly](https://sideloadly.io) è un programma gratuito per Mac e Windows che firma e installa un file `.ipa` via cavo o Wi-Fi.
+
+1. Scarica **`Lyricar.ipa`** dall'[ultima release](https://github.com/Gennaro0408-bit/lyricar/releases/latest).
+2. Apri Sideloadly, collega l'iPhone, trascina `Lyricar.ipa` nella finestra e inserisci il tuo Apple ID.
+3. Premi **Start**. Sull'iPhone autorizza il certificato in **Impostazioni → Generali → VPN e gestione dispositivi** e, se richiesto, attiva la **Modalità sviluppatore**.
+4. Vai al [Passo 3: Primo avvio](#passo-3-primo-avvio) e incolla il tuo Client ID Spotify quando te lo chiede.
+
+Con un **Apple ID gratuito** l'app dura **7 giorni**: ripeti i passaggi qui sopra (le impostazioni restano). Con un account sviluppatore **a pagamento** Sideloadly può firmarla per **un anno**.
+
+> Anche questo metodo non è ancora stato provato dall'inizio alla fine con Lyricar.
+
+### Altri metodi
+
+- **TestFlight** (account a pagamento). Puoi caricare Lyricar su App Store Connect e invitare amici come **tester interni**: fino a 100 persone, che devono essere aggiunte al tuo team su App Store Connect. Ogni build dura 90 giorni. Per i **tester esterni** serve la revisione beta di Apple, che probabilmente rifiuterebbe un'app così (vedi le [domande frequenti](#7-domande-frequenti)).
+- **"Servizi di firma" a pagamento e certificati enterprise condivisi.** Alcuni siti vendono certificati che permettono di installare qualsiasi `.ipa` per un anno. ⚠️ **Sconsigliati:** non sono ufficiali, Apple li revoca spesso (l'app smette di aprirsi all'improvviso) e affidi a sconosciuti un'app che ha accesso al tuo account Spotify.
+- **Creare da te il file `.ipa`:** su un Mac esegui `sh tools/build-ipa.sh`. Crea `build/Lyricar.ipa` senza Client ID e senza dati personali, pronto per AltStore, SideStore o Sideloadly.
+
+### Passo 3: Primo avvio
 
 > **Lingua:** Lyricar è in **italiano** e in **inglese** e segue la lingua dell'iPhone. Per scegliere una lingua diversa solo per Lyricar, tocca **Lingua** nell'app (oppure vai in **Impostazioni → Lyricar → Lingua**) e scegli in **Lingua preferita**.
 
-1. Apri **Lyricar** e tocca **Accedi con Spotify**.
-2. Entra con il **tuo** account Spotify, quello aggiunto in User Management. La pagina di accesso ti fa sempre scegliere l'account.
-3. Quando ti chiede la **posizione**, scegli **Consenti mentre usi l'app**.
-4. Quando ti chiede le **Attività in tempo reale**, consentile. Se te lo sei perso: **Impostazioni → Lyricar → Attività in tempo reale**.
-5. Fai partire una canzone su Spotify. Entro pochi secondi dovresti vedere:
+1. Apri **Lyricar**.
+   - Se l'hai installata con **AltStore, SideStore o Sideloadly**, compare prima un campo **Client ID Spotify**. Incolla il Client ID del [Passo 1](#passo-1-crea-lapp-spotify-e-ottieni-il-client-id). Controlla che il Redirect URI della tua app Spotify sia esattamente quello mostrato sotto il campo, `lyricar://callback` (il pulsante **Copia** ti aiuta). Puoi cambiarlo più avanti dal menu **⋯** → **Cambia Client ID Spotify**.
+2. Tocca **Accedi con Spotify**.
+3. Entra con il **tuo** account Spotify, quello aggiunto in User Management. La pagina di accesso ti fa sempre scegliere l'account.
+4. Quando ti chiede la **posizione**, scegli **Consenti mentre usi l'app**.
+5. Quando ti chiede le **Attività in tempo reale**, consentile. Se te lo sei perso: **Impostazioni → Lyricar → Attività in tempo reale**.
+6. Fai partire una canzone su Spotify. Entro pochi secondi dovresti vedere:
    - il testo che scorre nell'app;
    - dopo aver bloccato il telefono, il testo sulla **schermata di blocco** e nella **Dynamic Island**.
 
-### Passo 7: Preparalo per l'auto
+### Passo 4: Preparalo per l'auto
 
 **Vedere i testi su CarPlay**
 
@@ -287,7 +357,7 @@ Lyricar include anche un piccolo widget, *Testi Spotify*. È meno preciso della 
 | *"Account non autorizzato…"* (HTTP 403) dopo l'accesso | Il tuo account Spotify non è nell'elenco **User Management** dell'app sulla dashboard. Aggiungilo. |
 | *"Nessun brano in riproduzione"* mentre la musica suona | La musica arriva da un'altra fonte (radio, un'altra app o un altro account), oppure Spotify è in pausa. |
 
-### Xcode e installazione
+### Installazione
 
 | Errore | Soluzione |
 |---|---|
@@ -297,6 +367,10 @@ Lyricar include anche un piccolo widget, *Testi Spotify*. È meno preciso della 
 | Errori sugli **App Group** o su un profilo che *non li supporta* | Hai selezionato un profilo scaricato o generico ("XC Wildcard"). I profili wildcard non possono contenere App Group. Usa **Automatically manage signing**. |
 | *Sviluppatore non autorizzato* sull'iPhone | **Impostazioni → Generali → VPN e gestione dispositivi → Autorizza**. |
 | *È richiesta la Modalità sviluppatore* | **Impostazioni → Privacy e sicurezza → Modalità sviluppatore**. |
+| AltStore / Sideloadly: raggiunto il *numero massimo di App ID* | Gli Apple ID gratuiti possono registrare 10 App ID a settimana e Lyricar ne usa 2. Aspetta qualche giorno, oppure usa un Apple ID che non usi per altre app. |
+| AltStore / Sideloadly: raggiunto il *numero massimo di app* | Gli Apple ID gratuiti possono avere 3 app installate così (AltStore conta come una). Rimuovine una che non usi. |
+| Dopo una settimana l'app non si apre più | Il certificato gratuito è scaduto. Rinnovalo in AltStore o SideStore, oppure reinstallala (vedi la [sezione 6](#6-quanto-dura-lapp-installata)). |
+| Il widget dice *"Accedi a Spotify dall'app Lyricar"*, ma l'app funziona | Con il tuo metodo di firma l'App Group non è disponibile, quindi il widget non vede l'accesso. Usa la Live Activity (Modalità guida), che non ne ha bisogno. |
 
 ### Testi e sincronia
 
@@ -306,21 +380,30 @@ Lyricar include anche un piccolo widget, *Testi Spotify*. È meno preciso della 
 | Il testo è sfasato su **tutte** le canzoni | Di solito è un ritardo costante di CarPlay. Imposta un piccolo offset, oppure controlla di non avere vecchi offset salvati (usa **Azzera gli offset di tutti i brani**). |
 | *"Testo sincronizzato non disponibile"* | LRCLIB non ha il testo con i tempi per quella canzone. Puoi contribuire tu su [lrclib.net](https://lrclib.net). |
 | Il testo si **blocca** su una riga | iOS ha sospeso l'app. Controlla che il permesso di posizione sia concesso e la Modalità guida sia attiva, poi cerca in Diagnostica `⚠️ No updates for … s` oppure `interruption began`. |
-| La Live Activity non compare su CarPlay | Attiva le Attività in tempo reale in **Impostazioni → Lyricar**, spegni e riaccendi la Modalità guida e controlla le impostazioni di CarPlay del [Passo 7](#passo-7-preparalo-per-lauto). |
+| La Live Activity non compare su CarPlay | Attiva le Attività in tempo reale in **Impostazioni → Lyricar**, spegni e riaccendi la Modalità guida e controlla le impostazioni di CarPlay del [Passo 7](#passo-4-preparalo-per-lauto). |
 | Il widget è in ritardo o fermo | È normale: iOS limita gli aggiornamenti dei widget. Usa la Live Activity (Modalità guida). |
 
 ---
 
 ## 6. Quanto dura l'app installata?
 
-Un'app installata da Xcode è firmata con un **certificato** e un **profilo di provisioning**. Funziona fino alla **prima** di queste date:
+Dipende dal [metodo di installazione](#passo-2-scegli-come-installare-lapp):
+
+| Metodo | Dura | Come rinnovarla |
+|---|---|---|
+| Xcode + account a pagamento | 1 anno | Premi di nuovo ▶︎ Run in Xcode prima della scadenza |
+| Xcode + Apple ID gratuito | 7 giorni | Premi di nuovo ▶︎ Run in Xcode |
+| AltStore / SideStore | 7 giorni | In automatico (AltStore: tieni AltServer acceso sulla stessa Wi-Fi) |
+| Sideloadly | 7 giorni (gratuito) / 1 anno (a pagamento) | Reinstalla il file `.ipa` |
+
+Quando rinnovi, impostazioni e accesso a Spotify restano.
+
+**Account a pagamento, nel dettaglio.** Un'app installata da Xcode è firmata con un **certificato** e un **profilo di provisioning**. Funziona fino alla **prima** di queste date:
 
 1. la scadenza del **certificato** (in Accesso Portachiavi → certificato *Apple Development* → *Scade*);
 2. la scadenza del **profilo di provisioning** (con un account a pagamento Xcode li crea con validità di un anno);
 3. la fine dell'**abbonamento Apple Developer** (developer.apple.com/account → *Membership details*), se non viene rinnovato;
 4. la revoca del certificato, o la rimozione dell'iPhone dal tuo account.
-
-Con un **Apple ID gratuito** dura solo **7 giorni**.
 
 **Per prolungarla:** prima della scadenza collega l'iPhone e premi di nuovo **▶︎ Run** in Xcode. Xcode rinnova da solo certificato e profilo, finché l'abbonamento è attivo.
 
@@ -330,6 +413,9 @@ Con un **Apple ID gratuito** dura solo **7 giorni**.
 
 **Posso vedere i testi senza Spotify Premium?**
 Puoi *usare* Lyricar con qualsiasi account Spotify aggiunto in User Management. L'app Spotify però deve essere **creata** da un account Premium, anche di un'altra persona.
+
+**Posso installarla senza un Mac?**
+Sì: usa [AltStore o SideStore](#metodo-b-altstore-o-sidestore) da un PC Windows, oppure [Sideloadly](#metodo-c-sideloadly). Scarica il file `.ipa` già pronto dalla pagina Releases di GitHub.
 
 **Funziona con Apple Music, YouTube Music, ecc.?**
 Per ora no: Lyricar legge la riproduzione dalla Web API di Spotify.

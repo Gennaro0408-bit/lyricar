@@ -8,6 +8,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openURL) private var openURL
     @State private var loginError: String?
+    @State private var clientIDInput = SharedSettings.customClientID
 
     var body: some View {
         NavigationStack {
@@ -25,6 +26,13 @@ struct ContentView: View {
                             }
                             Button("Sign out of Spotify", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
                                 engine.logout()
+                            }
+                            if Config.builtInClientID.isEmpty {
+                                Button("Change Spotify Client ID", systemImage: "key") {
+                                    engine.logout()
+                                    SharedSettings.customClientID = ""
+                                    clientIDInput = ""
+                                }
                             }
                         }
                     } label: { Image(systemName: "ellipsis.circle") }
@@ -59,9 +67,11 @@ struct ContentView: View {
             Text("Connect your Spotify account to see lyrics on CarPlay.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
+            if needsClientID { clientIDField }
             Button {
                 Task {
                     do {
+                        if needsClientID { SharedSettings.customClientID = clientIDInput }
                         try await SpotifyLogin.login(using: webAuth)
                         engine.loggedIn = true
                         loginError = nil
@@ -77,6 +87,7 @@ struct ContentView: View {
             .buttonStyle(.borderedProminent)
             .tint(.green)
             .controlSize(.large)
+            .disabled(needsClientID && !isValidClientID)
             if let loginError {
                 Text(loginError).font(.footnote).foregroundStyle(.red)
             }
@@ -89,6 +100,43 @@ struct ContentView: View {
             .padding(.top, 8)
         }
         .padding(24)
+    }
+
+    // MARK: Client ID inserito dall'utente (.ipa installate con AltStore, SideStore, Sideloadly…)
+
+    /// L'app non ha un Client ID incorporato: va inserito qui
+    private var needsClientID: Bool { Config.builtInClientID.isEmpty }
+
+    /// Un Client ID Spotify è composto da 32 caratteri esadecimali
+    private var isValidClientID: Bool {
+        clientIDInput.count == 32 && clientIDInput.allSatisfy(\.isHexDigit)
+    }
+
+    private var clientIDField: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            TextField("Spotify Client ID", text: $clientIDInput)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .font(.system(.body, design: .monospaced))
+                .padding(12)
+                .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
+                .onChange(of: clientIDInput) { _, new in
+                    let clean = new.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                    if clean != new { clientIDInput = clean }
+                }
+            Text("Create an app on developer.spotify.com with the Redirect URI below, then paste its Client ID here.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            HStack {
+                Text(verbatim: Config.redirectURI)
+                    .font(.system(.footnote, design: .monospaced))
+                Spacer()
+                Button("Copy", systemImage: "doc.on.doc") {
+                    UIPasteboard.general.string = Config.redirectURI
+                }
+                .font(.footnote)
+            }
+        }
     }
 
     // MARK: Player

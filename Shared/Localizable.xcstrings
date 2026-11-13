@@ -61,6 +61,16 @@
         }
       }
     },
+    "Change Spotify Client ID": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia Client ID Spotify"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "it": {
@@ -77,6 +87,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Collega il tuo account Spotify per vedere i testi su CarPlay."
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copia"
+          }
+        }
+      }
+    },
+    "Create an app on developer.spotify.com with the Redirect URI below, then paste its Client ID here.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crea un'app su developer.spotify.com con il Redirect URI qui sotto, poi incolla qui il suo Client ID."
           }
         }
       }
@@ -347,6 +377,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Esci da Spotify"
+          }
+        }
+      }
+    },
+    "Spotify Client ID": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client ID Spotify"
           }
         }
       }

@@ -72,35 +72,65 @@ Lyricar asks Spotify every 3 seconds which song is playing and how far into it y
 
 | What | Why |
 |---|---|
-| Mac with **Xcode 26+** | To build and install the app |
 | iPhone with **iOS 26+** | Live Activities and widgets on CarPlay |
 | A car with **CarPlay** (wired or wireless) | To see the lyrics while driving |
-| **Apple Developer Program** membership | With a free Apple ID the app expires after 7 days and App Groups may not be available |
 | **Spotify Premium** (for whoever creates the Spotify app) | Spotify's Web API requires it |
+| An **Apple ID** (free or paid) + a Mac or Windows PC | To sign and install the app. See the options below. |
 
-## Quick start
+## Installation
 
-> New to this? The **[step-by-step guide](docs/GUIDE.md#setup-step-by-step)** explains every step in detail, including how to get each ID.
+Apps that don't come from the App Store must be **signed with a certificate** tied to an Apple account. Pick the method that suits you:
 
-1. **Create a Spotify app** at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard):
-   - Redirect URI: `lyricar://callback`
-   - API: **Web API** only
-   - In **User Management**, add the email of every Spotify account that will use the app
-   - Copy the **Client ID**
-2. **Clone and configure** the project:
-   ```sh
-   git clone https://github.com/Gennaro0408-bit/lyricar.git
-   cd lyricar
-   cp Config/Local.xcconfig.example Config/Local.xcconfig
-   ```
-   Then edit `Config/Local.xcconfig`:
-   ```
-   DEVELOPMENT_TEAM = ABCDE12345            // your Apple Team ID
-   APP_BUNDLE_ID = com.yourname.lyricar     // any unique bundle ID
-   SPOTIFY_CLIENT_ID = your_client_id
-   ```
-3. **Build and run.** Open `Lyricar.xcodeproj`, select your iPhone and press **▶︎ Run**.
-4. **First launch.** Tap **Sign in with Spotify**, allow location access *while using the app*, and play a song.
+| Method | You need | The app lasts | Renewal |
+|---|---|---|---|
+| **Xcode + Apple Developer Program** ⭐ | Mac, 99 $/€ per year | **1 year** | Press ▶︎ Run again once a year |
+| **Xcode + free Apple ID** | Mac | 7 days | Press ▶︎ Run again every week |
+| **[AltStore](https://altstore.io) / [SideStore](https://sidestore.io)** | Mac or Windows PC for setup, free Apple ID | 7 days | **Automatic** |
+| **[Sideloadly](https://sideloadly.io)** | Mac or Windows PC, free or paid Apple ID | 7 days / 1 year | Reinstall the `.ipa` |
+| TestFlight, signing services… | — | Varies | See the [guide](docs/GUIDE.md#other-methods) |
+
+👉 **Step-by-step instructions for every method:** [docs/GUIDE.md](docs/GUIDE.md#setup-step-by-step) · 🇮🇹 [docs/GUIDA.md](docs/GUIDA.md#configurazione-passo-passo)
+
+> [!NOTE]
+> Only the Xcode method has been tested end to end so far. AltStore, SideStore and Sideloadly should work, but if something goes wrong please open an [issue](https://github.com/Gennaro0408-bit/lyricar/issues).
+
+### 1. Create your Spotify app (all methods)
+
+At [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard) → **Create app**:
+- Redirect URI: `lyricar://callback`
+- API: **Web API** only
+- In **Settings → User Management**, add the email of every Spotify account that will use the app
+- Copy the **Client ID**
+
+### 2a. With Xcode (Mac)
+
+```sh
+git clone https://github.com/Gennaro0408-bit/lyricar.git
+cd lyricar
+cp Config/Local.xcconfig.example Config/Local.xcconfig
+```
+
+Edit `Config/Local.xcconfig`:
+
+```
+DEVELOPMENT_TEAM = ABCDE12345            // your Apple Team ID
+APP_BUNDLE_ID = com.yourname.lyricar     // any unique bundle ID
+SPOTIFY_CLIENT_ID = your_client_id
+```
+
+Open `Lyricar.xcodeproj`, select your iPhone and press **▶︎ Run**.
+
+### 2b. With AltStore, SideStore or Sideloadly (no Xcode)
+
+1. Download **`Lyricar.ipa`** from the [latest release](https://github.com/Gennaro0408-bit/lyricar/releases/latest).
+2. Install it with AltStore / SideStore (**My Apps → +**) or Sideloadly (drag it into the window).
+3. On first launch, Lyricar asks you to **paste your Spotify Client ID**.
+
+The `.ipa` contains no Client ID and no personal data. You can build it yourself with `sh tools/build-ipa.sh`.
+
+### 3. First launch
+
+Tap **Sign in with Spotify**, allow location access *while using the app*, and play a song.
 
 ## Project structure
 
@@ -110,7 +140,7 @@ Widget/     WidgetKit widget + Live Activity UI
 Shared/     Code shared by app & widget: Spotify API, LRCLIB client, LRC parser, Keychain, settings
 Config/     Build settings (Base.xcconfig is committed; your Local.xcconfig is git-ignored)
 docs/       Guides (English: GUIDE.md · Italiano: GUIDA.md) and images
-tools/      render-logo.swift: regenerates the logo and app icon
+tools/      render-logo.swift (logo and icon) · build-ipa.sh (unsigned .ipa for sideloading)
 project.yml XcodeGen project definition (Lyricar.xcodeproj is generated from it)
 ```
 
@@ -162,6 +192,6 @@ Lyricar is not affiliated with, endorsed by, or sponsored by Spotify or Apple. L
 **Lyricar** mostra su **CarPlay** il testo sincronizzato della canzone che stai ascoltando su Spotify. Funziona tramite una Live Activity che l'app aggiorna in tempo reale mentre guidi.
 
 - **Cosa serve:** un Mac con Xcode 26, un iPhone con iOS 26, un account Apple Developer e un account Spotify Premium per creare l'app Spotify.
-- **Come si installa:** segui la **[guida completa in italiano](docs/GUIDA.md)**. Spiega passo passo come ottenere il **Client ID Spotify** e il **Team ID Apple**, come scegliere il **Bundle ID**, e come risolvere i problemi più comuni.
+- **Come si installa:** con **Xcode** (account Apple a pagamento: dura 1 anno; gratuito: 7 giorni), oppure senza Mac con **AltStore, SideStore o Sideloadly** usando il file `.ipa` delle [Release](https://github.com/Gennaro0408-bit/lyricar/releases/latest). Segui la **[guida completa in italiano](docs/GUIDA.md)**. Spiega passo passo come ottenere il **Client ID Spotify** e il **Team ID Apple**, come scegliere il **Bundle ID**, e come risolvere i problemi più comuni.
 - **Lingua:** l'app è in italiano e in inglese e segue la lingua dell'iPhone. Puoi sceglierla anche solo per Lyricar in *Impostazioni → Lyricar → Lingua*.
 - **Sicurezza:** leggi solo con un'occhiata, come faresti con il navigatore.

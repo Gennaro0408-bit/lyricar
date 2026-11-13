@@ -13,12 +13,14 @@ enum TokenStore {
     private static let account = "tokens"
 
     private static var baseQuery: [String: Any] {
-        [
+        var q: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
-            kSecAttrAccessGroup as String: Config.appGroup,
         ]
+        // Senza App Group il token resta solo nell'app (il widget non potrà leggerlo)
+        if !Config.appGroup.isEmpty { q[kSecAttrAccessGroup as String] = Config.appGroup }
+        return q
     }
 
     static func load() -> SpotifyTokens? {
