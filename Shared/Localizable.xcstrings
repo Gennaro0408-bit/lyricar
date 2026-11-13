@@ -1,0 +1,536 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ · %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Account not authorized: add it under User Management on the Spotify dashboard": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Account non autorizzato: aggiungilo in User Management sulla dashboard Spotify"
+          }
+        }
+      }
+    },
+    "Applies only to the song that's playing. Lyrics late → increase; early → decrease.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vale solo per la canzone in riproduzione. Testo in ritardo → aumenta; in anticipo → diminuisci."
+          }
+        }
+      }
+    },
+    "Artist": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artista"
+          }
+        }
+      }
+    },
+    "CarPlay → Connects → “Start lyrics in the car”": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CarPlay → Si connette → “Avvia testi in auto”"
+          }
+        }
+      }
+    },
+    "CarPlay → Disconnects → “Stop lyrics in the car”": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CarPlay → Si disconnette → “Ferma testi in auto”"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svuota"
+          }
+        }
+      }
+    },
+    "Connect your Spotify account to see lyrics on CarPlay.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collega il tuo account Spotify per vedere i testi su CarPlay."
+          }
+        }
+      }
+    },
+    "Diagnostics": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostica"
+          }
+        }
+      }
+    },
+    "Driving Mode": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modalità guida"
+          }
+        }
+      }
+    },
+    "Invalid response from Spotify": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risposta di Spotify non valida"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lingua"
+          }
+        }
+      }
+    },
+    "Language: %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lingua: %@"
+          }
+        }
+      }
+    },
+    "Loading…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caricamento…"
+          }
+        }
+      }
+    },
+    "Login cancelled (%@)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesso annullato (%@)"
+          }
+        }
+      }
+    },
+    "Looking for lyrics…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerco il testo…"
+          }
+        }
+      }
+    },
+    "Lyricar": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyricar"
+          }
+        }
+      }
+    },
+    "Lyrics": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testo"
+          }
+        }
+      }
+    },
+    "Network error": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Errore di rete"
+          }
+        }
+      }
+    },
+    "No events recorded.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun evento registrato."
+          }
+        }
+      }
+    },
+    "No synced lyrics available": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testo sincronizzato non disponibile"
+          }
+        }
+      }
+    },
+    "Nothing playing": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun brano in riproduzione"
+          }
+        }
+      }
+    },
+    "Nothing playing on Spotify": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun brano in riproduzione su Spotify"
+          }
+        }
+      }
+    },
+    "Offset": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offset"
+          }
+        }
+      }
+    },
+    "On: lyrics stay in sync on CarPlay even with the app closed. Turns off by itself after 15 minutes without music once CarPlay is disconnected.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attiva: i testi restano sincronizzati su CarPlay anche con l'app chiusa. Si spegne da sola dopo 15 minuti senza musica, una volta scollegato CarPlay."
+          }
+        }
+      }
+    },
+    "Paused": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In pausa"
+          }
+        }
+      }
+    },
+    "Refresh widget": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiorna widget"
+          }
+        }
+      }
+    },
+    "Refreshes the widget with the song playing on Spotify.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiorna il widget con il brano in riproduzione su Spotify."
+          }
+        }
+      }
+    },
+    "Reset offsets for all songs": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Azzera gli offset di tutti i brani"
+          }
+        }
+      }
+    },
+    "Reset this song's offset": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Azzera l'offset di questo brano"
+          }
+        }
+      }
+    },
+    "Resync lyrics": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risincronizza testi"
+          }
+        }
+      }
+    },
+    "Resync widget": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risincronizza widget"
+          }
+        }
+      }
+    },
+    "Sign in to Spotify from the Lyricar app": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi a Spotify dall'app Lyricar"
+          }
+        }
+      }
+    },
+    "Sign in with Spotify": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accedi con Spotify"
+          }
+        }
+      }
+    },
+    "Sign out of Spotify": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esci da Spotify"
+          }
+        }
+      }
+    },
+    "Spotify Lyrics": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testi Spotify"
+          }
+        }
+      }
+    },
+    "Spotify error (%lld)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Errore Spotify (%lld)"
+          }
+        }
+      }
+    },
+    "Start lyrics in the car": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvia testi in auto"
+          }
+        }
+      }
+    },
+    "Start when the app opens": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvia all'apertura dell'app"
+          }
+        }
+      }
+    },
+    "Starting…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvio…"
+          }
+        }
+      }
+    },
+    "Stop lyrics in the car": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ferma testi in auto"
+          }
+        }
+      }
+    },
+    "Suggested automations (Shortcuts app)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automazioni consigliate (app Comandi)"
+          }
+        }
+      }
+    },
+    "Sync for this song": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronia di questo brano"
+          }
+        }
+      }
+    },
+    "The lyrics of the song that's playing, line by line.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il testo del brano in riproduzione, riga per riga."
+          }
+        }
+      }
+    },
+    "The song's lyrics": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il testo della canzone"
+          }
+        }
+      }
+    },
+    "Title": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titolo"
+          }
+        }
+      }
+    },
+    "To switch between English and Italian, tap Language and choose it under “Preferred Language”.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per passare tra italiano e inglese, tocca Lingua e sceglila in “Lingua preferita”."
+          }
+        }
+      }
+    },
+    "Turn it on before you drive: it shows the lyrics on CarPlay through a Live Activity.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accendila prima di partire: mostra i testi su CarPlay tramite una Live Activity."
+          }
+        }
+      }
+    },
+    "Turn on Live Activities for Lyricar in Settings": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attiva le Attività in tempo reale per Lyricar in Impostazioni"
+          }
+        }
+      }
+    },
+    "Turns off Driving Mode and ends the Live Activity.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spegne la modalità guida e termina la Live Activity."
+          }
+        }
+      }
+    },
+    "Turns on Driving Mode with lyrics on CarPlay.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accende la modalità guida con i testi su CarPlay."
+          }
+        }
+      }
+    },
+    "appear here": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "appare qui"
+          }
+        }
+      }
+    },
+    "♪ Instrumental": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "♪ Strumentale"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

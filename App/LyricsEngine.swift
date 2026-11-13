@@ -21,7 +21,7 @@ final class LyricsEngine: ObservableObject {
         didSet {
             guard let id = nowPlaying?.track.id, offsetMs != SharedSettings.offset(for: id) else { return }
             SharedSettings.setOffset(offsetMs, for: id)
-            EventLog.log("Offset \(offsetMs) ms per «\(nowPlaying?.track.name ?? "")»")
+            EventLog.log("Offset \(offsetMs) ms for «\(nowPlaying?.track.name ?? "")»")
             reloadWidget()
         }
     }
@@ -46,16 +46,16 @@ final class LyricsEngine: ObservableObject {
         // L'offset globale della versione precedente spostava tutte le canzoni: azzeralo una volta
         if SharedSettings.defaults.object(forKey: "offsetMs") != nil {
             SharedSettings.resetAllOffsets()
-            EventLog.log("Vecchio offset globale azzerato")
+            EventLog.log("Old global offset reset")
         }
         keepAlive.onEvent = { EventLog.log("Audio: \($0)") }
-        locationKeepAlive.onEvent = { EventLog.log("Posizione: \($0)") }
+        locationKeepAlive.onEvent = { EventLog.log("Location: \($0)") }
     }
 
     func resetAllOffsets() {
         SharedSettings.resetAllOffsets()
         offsetMs = 0
-        EventLog.log("Tutti gli offset azzerati")
+        EventLog.log("All offsets reset")
         reloadWidget()
     }
 
@@ -65,7 +65,7 @@ final class LyricsEngine: ObservableObject {
     // MARK: Ciclo di vita
 
     func setForeground(_ foreground: Bool) {
-        if foreground != isForeground { EventLog.log(foreground ? "App in primo piano" : "App in background") }
+        if foreground != isForeground { EventLog.log(foreground ? "App in foreground" : "App in background") }
         isForeground = foreground
         if foreground {
             if autoStart && loggedIn && !drivingMode { startDriving() }
@@ -78,7 +78,7 @@ final class LyricsEngine: ObservableObject {
 
     func startDriving() {
         guard loggedIn else { return }
-        EventLog.log("▶︎ Modalità guida ACCESA")
+        EventLog.log("▶︎ Driving Mode ON")
         drivingMode = true
         keepAlive.start()
         locationKeepAlive.start()
@@ -87,7 +87,7 @@ final class LyricsEngine: ObservableObject {
     }
 
     func stopDriving() {
-        if drivingMode { EventLog.log("■ Modalità guida SPENTA") }
+        if drivingMode { EventLog.log("■ Driving Mode OFF") }
         drivingMode = false
         keepAlive.stop()
         locationKeepAlive.stop()
@@ -128,12 +128,12 @@ final class LyricsEngine: ObservableObject {
         guard loggedIn else { return }
         // Controlli di salute: un buco tra due letture indica che iOS ha sospeso l'app
         let gap = Date().timeIntervalSince(lastPollOK)
-        if gap > 15 { EventLog.log("⚠️ Nessun aggiornamento per \(Int(gap)) s (app sospesa?)") }
+        if gap > 15 { EventLog.log("⚠️ No updates for \(Int(gap)) s (app suspended?)") }
         if drivingMode { keepAlive.ensureRunning() }
         if drivingMode, activity == nil || activity?.activityState != .active,
            Date().timeIntervalSince(lastActivityAttempt) > 60 {
             lastActivityAttempt = Date()
-            EventLog.log("⚠️ Live Activity non attiva (\(String(describing: activity?.activityState))), la ricreo")
+            EventLog.log("⚠️ Live Activity not active (\(String(describing: activity?.activityState))), recreating it")
             startActivity()
         }
         do {
@@ -141,7 +141,7 @@ final class LyricsEngine: ObservableObject {
             lastPollOK = Date()
             guard let np else {
                 nowPlaying = nil
-                status = "Nessun brano in riproduzione su Spotify"
+                status = String(localized: "Nothing playing on Spotify")
                 markIdle()
                 return
             }
@@ -153,26 +153,26 @@ final class LyricsEngine: ObservableObject {
                 songStart = np.songStart
                 offsetMs = SharedSettings.offset(for: np.track.id)
                 lines = []
-                lyricsNote = "Cerco il testo…"
+                lyricsNote = String(localized: "Looking for lyrics…")
                 let lyrics = try? await LyricsService.lyrics(for: np.track)
                 guard nowPlaying?.track.id == np.track.id else { return }
                 lines = lyrics?.synced ?? []
                 lyricsNote = lines.isEmpty
-                    ? (lyrics?.instrumental == true ? "♪ Strumentale" : "Testo sincronizzato non disponibile")
+                    ? (lyrics?.instrumental == true ? String(localized: "♪ Instrumental") : String(localized: "No synced lyrics available"))
                     : ""
                 let spotifyDur = Double(np.track.durationMs) / 1000
                 let diff = lyrics?.sourceDuration.map { $0 - spotifyDur }
-                EventLog.log("♪ «\(np.track.name)» – \(np.track.artist) | pos \(np.progressMs / 1000)s | righe \(lines.count)"
-                    + (diff.map { String(format: " | durata testo %+.1fs", $0) } ?? "")
+                EventLog.log("♪ «\(np.track.name)» – \(np.track.artist) | pos \(np.progressMs / 1000)s | lines \(lines.count)"
+                    + (diff.map { String(format: " | lyrics duration %+.1fs", $0) } ?? "")
                     + (offsetMs != 0 ? " | offset \(offsetMs) ms" : ""))
                 if let diff, abs(diff) > 2 {
-                    EventLog.log("⚠️ Il testo trovato è di una versione con durata diversa: possibile sfasamento")
+                    EventLog.log("⚠️ Lyrics found are for a version with a different duration: they may be out of sync")
                 }
                 reloadWidget()
             } else if np.isPlaying, previous?.isPlaying == true, let s = songStart {
                 let drift = np.songStart.timeIntervalSince(s)
                 if abs(drift) > 1.0 {
-                    EventLog.log(String(format: "Riallineo di %+.1fs (salto/riavvolgimento o ritardo)", -drift))
+                    EventLog.log(String(format: "Re-aligning by %+.1fs (skip/seek or delay)", -drift))
                     songStart = np.songStart      // salto/riavvolgimento
                     reloadWidget()
                 } else {
@@ -181,14 +181,14 @@ final class LyricsEngine: ObservableObject {
             } else {
                 songStart = np.songStart          // pausa o ripresa
                 if np.isPlaying != previous?.isPlaying {
-                    EventLog.log(np.isPlaying ? "Ripresa" : "Pausa")
+                    EventLog.log(np.isPlaying ? "Resumed" : "Paused")
                     reloadWidget()
                 }
             }
 
             if np.isPlaying { idleSince = nil } else { markIdle() }
         } catch {
-            EventLog.log("Errore Spotify: \(error.localizedDescription)")
+            EventLog.log("Spotify error: \(error.localizedDescription)")
             status = error.localizedDescription
             if case SpotifyError.notLoggedIn = error { loggedIn = false }
         }
@@ -202,7 +202,7 @@ final class LyricsEngine: ObservableObject {
         }
         idleSince = idleSince ?? Date()
         if drivingMode, let since = idleSince, Date().timeIntervalSince(since) > idleTimeout {
-            EventLog.log("Nessuna musica da 15 min e CarPlay scollegato: spengo")
+            EventLog.log("No music for 15 min and CarPlay disconnected: stopping")
             stopDriving()
         }
     }
@@ -213,7 +213,7 @@ final class LyricsEngine: ObservableObject {
         guard let np = nowPlaying else {
             currentIndex = nil
             pushActivity(.init(title: "", artist: "", current: "", next: nil, isPlaying: false,
-                               message: status.isEmpty ? "Nessun brano in riproduzione" : status))
+                               message: status.isEmpty ? String(localized: "Nothing playing") : status))
             return
         }
         let offset = Double(offsetMs) / 1000
@@ -240,12 +240,12 @@ final class LyricsEngine: ObservableObject {
 
     private func startActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
-            status = "Attiva le Attività in tempo reale per Lyricar in Impostazioni"
+            status = String(localized: "Turn on Live Activities for Lyricar in Settings")
             return
         }
         endActivities()
         let initial = LyricsActivityAttributes.ContentState(
-            title: "", artist: "", current: "", next: nil, isPlaying: false, message: "Avvio…")
+            title: "", artist: "", current: "", next: nil, isPlaying: false, message: String(localized: "Starting…"))
         do {
             let a = try Activity.request(
                 attributes: LyricsActivityAttributes(),
@@ -253,7 +253,7 @@ final class LyricsEngine: ObservableObject {
                 pushType: nil)
             activity = a
             lastState = initial
-            EventLog.log("Live Activity avviata")
+            EventLog.log("Live Activity started")
             activityObserver?.cancel()
             activityObserver = Task {
                 for await state in a.activityStateUpdates {
@@ -261,7 +261,7 @@ final class LyricsEngine: ObservableObject {
                 }
             }
         } catch {
-            EventLog.log("⚠️ Live Activity non avviata: \(error.localizedDescription)")
+            EventLog.log("⚠️ Live Activity not started: \(error.localizedDescription)")
         }
     }
 

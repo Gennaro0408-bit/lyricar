@@ -1,0 +1,26 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "CFBundleDisplayName": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyricar"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durante la guida Lyricar usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

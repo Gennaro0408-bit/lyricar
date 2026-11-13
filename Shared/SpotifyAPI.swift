@@ -25,10 +25,10 @@ enum SpotifyError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .notLoggedIn: "Accedi a Spotify dall'app Lyricar"
-        case .http(403): "Account non autorizzato: aggiungilo in User Management sulla dashboard Spotify"
-        case .http(let c): "Errore Spotify (\(c))"
-        case .badResponse: "Risposta Spotify non valida"
+        case .notLoggedIn: String(localized: "Sign in to Spotify from the Lyricar app")
+        case .http(403): String(localized: "Account not authorized: add it under User Management on the Spotify dashboard")
+        case .http(let c): String(localized: "Spotify error (\(c))")
+        case .badResponse: String(localized: "Invalid response from Spotify")
         }
     }
 }

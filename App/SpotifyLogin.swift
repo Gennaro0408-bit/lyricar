@@ -31,7 +31,7 @@ enum SpotifyLogin {
 
         let items = URLComponents(url: callback, resolvingAgainstBaseURL: false)?.queryItems ?? []
         if let err = items.first(where: { $0.name == "error" })?.value {
-            throw NSError(domain: "Spotify", code: 1, userInfo: [NSLocalizedDescriptionKey: "Login annullato (\(err))"])
+            throw NSError(domain: "Spotify", code: 1, userInfo: [NSLocalizedDescriptionKey: String(localized: "Login cancelled (\(err))")])
         }
         guard items.first(where: { $0.name == "state" })?.value == state,
               let code = items.first(where: { $0.name == "code" })?.value else {

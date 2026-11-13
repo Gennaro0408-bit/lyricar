@@ -5,7 +5,7 @@
 	<key>AppGroup</key>
 	<string>group.$(APP_BUNDLE_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Lyricar</string>
 	<key>CFBundleExecutable</key>
@@ -14,6 +14,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>it</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -36,7 +41,7 @@
 	<key>CallbackScheme</key>
 	<string>$(CALLBACK_SCHEME)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Durante la guida Lyricar usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata.</string>
+	<string>While you drive, Lyricar uses your location only to keep running in the background, so the lyrics on CarPlay stay in sync even after a phone call. Your location is never stored or sent anywhere.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>SpotifyClientID</key>

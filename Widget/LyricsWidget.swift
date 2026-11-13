@@ -20,8 +20,8 @@ struct LyricEntry: TimelineEntry {
 
 struct LyricsProvider: TimelineProvider {
     func placeholder(in context: Context) -> LyricEntry {
-        LyricEntry(date: .now, state: .line, title: "Titolo", artist: "Artista",
-                   current: "Il testo della canzone", next: "appare qui")
+        LyricEntry(date: .now, state: .line, title: String(localized: "Title"), artist: String(localized: "Artist"),
+                   current: String(localized: "The song's lyrics"), next: String(localized: "appear here"))
     }
 
     func getSnapshot(in context: Context, completion: @escaping (LyricEntry) -> Void) {
@@ -39,13 +39,13 @@ struct LyricsProvider: TimelineProvider {
         let now = Date()
         do {
             guard let np = try await SpotifyAPI.currentlyPlaying() else {
-                return Timeline(entries: [LyricEntry(date: now, state: .idle, message: "Nessun brano in riproduzione")],
+                return Timeline(entries: [LyricEntry(date: now, state: .idle, message: String(localized: "Nothing playing"))],
                                 policy: .after(now.addingTimeInterval(15 * 60)))
             }
             let base = LyricEntry(date: now, state: .line, title: np.track.name, artist: np.track.artist)
 
             guard np.isPlaying else {
-                var e = base; e.state = .paused; e.message = "In pausa"
+                var e = base; e.state = .paused; e.message = String(localized: "Paused")
                 return Timeline(entries: [e], policy: .after(now.addingTimeInterval(5 * 60)))
             }
 
@@ -55,7 +55,7 @@ struct LyricsProvider: TimelineProvider {
 
             guard !lines.isEmpty else {
                 var e = base; e.state = .noLyrics
-                e.message = lyrics?.instrumental == true ? "♪ Strumentale" : "Testo sincronizzato non disponibile"
+                e.message = lyrics?.instrumental == true ? String(localized: "♪ Instrumental") : String(localized: "No synced lyrics available")
                 return Timeline(entries: [e], policy: .after(songEnd))
             }
 
@@ -81,7 +81,7 @@ struct LyricsProvider: TimelineProvider {
 
             return Timeline(entries: entries, policy: .after(songEnd))
         } catch {
-            let msg = (error as? LocalizedError)?.errorDescription ?? "Errore di rete"
+            let msg = (error as? LocalizedError)?.errorDescription ?? String(localized: "Network error")
             return Timeline(entries: [LyricEntry(date: now, state: .error, message: msg)],
                             policy: .after(now.addingTimeInterval(10 * 60)))
         }
@@ -159,8 +159,8 @@ struct LyricsWidget: Widget {
         StaticConfiguration(kind: Config.widgetKind, provider: LyricsProvider()) { entry in
             LyricsWidgetView(entry: entry)
         }
-        .configurationDisplayName("Testi Spotify")
-        .description("Il testo del brano in riproduzione, riga per riga.")
+        .configurationDisplayName("Spotify Lyrics")
+        .description("The lyrics of the song that's playing, line by line.")
         .supportedFamilies([.systemSmall, .systemMedium]) // systemSmall è il formato di CarPlay
     }
 }

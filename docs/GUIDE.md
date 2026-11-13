@@ -228,20 +228,9 @@ If your iPhone says *"Untrusted Developer"*, go to **Settings → General → VP
 
 ### Step 6: First launch
 
-The app's interface is in Italian. Here is a quick glossary:
+> **Language:** Lyricar is available in **English** and **Italian** and follows your iPhone's language. To pick a different one just for Lyricar, tap **Language** in the app (or go to **Settings → Lyricar → Language**) and choose it under **Preferred Language**.
 
-| In the app | Meaning |
-|---|---|
-| **Accedi con Spotify** | Sign in with Spotify |
-| **Modalità guida** | Driving Mode |
-| **Avvia all'apertura dell'app** | Start when the app opens |
-| **Sincronia di questo brano / Offset** | Sync for this song / Offset |
-| **Azzera** | Reset |
-| **Diagnostica** | Diagnostics |
-| **Nessun brano in riproduzione** | Nothing playing |
-| **Testo sincronizzato non disponibile** | No synced lyrics available |
-
-1. Open **Lyricar** and tap **Accedi con Spotify**.
+1. Open **Lyricar** and tap **Sign in with Spotify**.
 2. Sign in with **your** Spotify account, the one added in User Management. The login page always lets you choose the account.
 3. When asked for **location**, choose **Allow While Using App**.
 4. When asked about **Live Activities**, allow them. If you missed it: **Settings → Lyricar → Live Activities**.
@@ -254,7 +243,7 @@ The app's interface is in Italian. Here is a quick glossary:
 **See the lyrics on CarPlay**
 
 1. Connect the iPhone to the car, by cable or wirelessly.
-2. Make sure **Driving Mode** (*Modalità guida*) is on in Lyricar. By default it turns on whenever you open the app.
+2. Make sure **Driving Mode** is on in Lyricar. By default it turns on whenever you open the app.
 3. The Live Activity appears on the CarPlay dashboard or on the widgets page (the first page on the left). If you don't see it, check **iPhone Settings → General → CarPlay → [your car]** and make sure widgets and Live Activities are enabled.
 
 **Optional: start and stop automatically**
@@ -263,21 +252,22 @@ iOS only allows a Live Activity to be *started* while the app is open. These two
 
 1. Open the **Shortcuts** app → **Automation** tab → **+**.
 2. Choose **CarPlay → Connects → Run Immediately → Next**.
-3. Search for the **Avvia testi in auto** action (*Start lyrics in the car*) from Lyricar and add it. Tap **Done**.
-4. Repeat with **CarPlay → Disconnects** and the **Ferma testi in auto** action (*Stop lyrics in the car*).
+3. Search for the **Start lyrics in the car** action from Lyricar and add it. Tap **Done**.
+4. Repeat with **CarPlay → Disconnects** and the **Stop lyrics in the car** action.
 
 **Optional: add the widget**
 
-Lyricar also includes a small widget, *Testi Spotify*. It is less precise than the Live Activity, but needs no app running. Add it from the CarPlay widgets page (long-press → **+**) or from the iPhone Home Screen.
+Lyricar also includes a small widget, *Spotify Lyrics*. It is less precise than the Live Activity, but needs no app running. Add it from the CarPlay widgets page (long-press → **+**) or from the iPhone Home Screen.
 
 ---
 
 ## 4. Using the app
 
 - **Driving Mode switch.** Turns on background updates and the Live Activity.
-- **Per-song offset.** If a song's lyrics run **late**, increase the offset. If they run **early**, decrease it. The value is saved **for that song only**. Use **Azzera** (Reset) to undo it, or reset all songs at the bottom of the screen.
-- **Diagnostics** (*Diagnostica*). A log of what happened: song changes, re-alignments, audio interruptions (calls, Siri), Live Activity state, and network errors. The share button sends it as text, which is handy when reporting a bug.
+- **Per-song offset.** If a song's lyrics run **late**, increase the offset. If they run **early**, decrease it. The value is saved **for that song only**. Use **Reset this song's offset** to undo it, or reset all songs at the bottom of the screen.
+- **Diagnostics**. A log of what happened: song changes, re-alignments, audio interruptions (calls, Siri), Live Activity state, and network errors. The share button sends it as text, which is handy when reporting a bug.
 - **Pull to refresh.** Forces an immediate check with Spotify.
+- **Language.** Opens Lyricar's page in Settings, where you can switch between English and Italian under **Preferred Language**.
 
 ---
 
@@ -290,8 +280,8 @@ Lyricar also includes a small widget, *Testi Spotify*. It is less precise than t
 | Web API checkbox greyed out / "Upgrade to Spotify Premium" | The account creating the app is not Premium. See the box in [Step 1](#step-1-create-the-spotify-app-and-get-the-client-id). |
 | `INVALID_CLIENT: Invalid redirect URI` | The redirect on the dashboard doesn't match. It must be exactly `lyricar://callback`, or `<CALLBACK_SCHEME>://callback` if you changed it. |
 | `INVALID_CLIENT: Invalid client` | `SPOTIFY_CLIENT_ID` is missing or wrong in `Local.xcconfig`. Rebuild after fixing it. |
-| *"Account non autorizzato…"* (HTTP 403) after login | Your Spotify account is not in the app's **User Management** list on the dashboard. Add it. |
-| *"Nessun brano in riproduzione"* while music plays | Music is playing from a source other than your Spotify account (radio, another app, or another account), or Spotify is paused. |
+| *"Account not authorized…"* (HTTP 403) after login | Your Spotify account is not in the app's **User Management** list on the dashboard. Add it. |
+| *"Nothing playing"* while music plays | Music is playing from a source other than your Spotify account (radio, another app, or another account), or Spotify is paused. |
 
 ### Xcode / installation
 
@@ -308,10 +298,10 @@ Lyricar also includes a small widget, *Testi Spotify*. It is less precise than t
 
 | Symptom | Cause and fix |
 |---|---|
-| Lyrics are always early or late on **one** song | LRCLIB has lyrics for a different version of that song. Use the **per-song offset**. The Diagnostics log shows `⚠️ … durata diversa` (different duration) when this is likely. |
-| Lyrics are off on **every** song | Usually a constant CarPlay display delay. Set a small offset, or check that you don't have old offsets saved (use *Azzera gli offset di tutti i brani*). |
-| *"Testo sincronizzato non disponibile"* | LRCLIB has no time-stamped lyrics for that song. You can contribute them at [lrclib.net](https://lrclib.net). |
-| Lyrics **freeze** on one line | iOS suspended the app. Check that location permission is granted and Driving Mode is on, then look in Diagnostics for `⚠️ Nessun aggiornamento per … s` (no updates for … s) or audio interruptions. |
+| Lyrics are always early or late on **one** song | LRCLIB has lyrics for a different version of that song. Use the **per-song offset**. The Diagnostics log shows `⚠️ Lyrics found are for a version with a different duration` when this is likely. |
+| Lyrics are off on **every** song | Usually a constant CarPlay display delay. Set a small offset, or check that you don't have old offsets saved (use **Reset offsets for all songs**). |
+| *"No synced lyrics available"* | LRCLIB has no time-stamped lyrics for that song. You can contribute them at [lrclib.net](https://lrclib.net). |
+| Lyrics **freeze** on one line | iOS suspended the app. Check that location permission is granted and Driving Mode is on, then look in Diagnostics for `⚠️ No updates for … s` or `interruption began`. |
 | No Live Activity on CarPlay | Enable Live Activities in **Settings → Lyricar**, turn Driving Mode off and on, and check the CarPlay settings in [Step 7](#step-7-set-it-up-for-the-car). |
 | Widget is late or frozen | Expected: iOS limits widget refreshes. Use the Live Activity (Driving Mode). |
 

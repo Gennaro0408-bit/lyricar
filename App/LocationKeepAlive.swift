@@ -26,14 +26,14 @@ final class LocationKeepAlive {
                 for try await update in CLLocationUpdate.liveUpdates(.automotiveNavigation) {
                     if Task.isCancelled { break }
                     if update.authorizationDenied || update.authorizationDeniedGlobally {
-                        self?.onEvent?("permesso posizione negato")
+                        self?.onEvent?("location permission denied")
                     }
                 }
             } catch {
-                self?.onEvent?("errore posizione: \(error.localizedDescription)")
+                self?.onEvent?("location error: \(error.localizedDescription)")
             }
         }
-        onEvent?("sessione posizione avviata")
+        onEvent?("background location session started")
     }
 
     func stop() {

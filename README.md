@@ -4,7 +4,7 @@
 
 Lyricar is an iOS app that shows the lyrics of the song currently playing on Spotify on **CarPlay**, line by line and in sync with the music. The lyrics appear in a Live Activity, with a widget as an alternative.
 
-<p align="center"><i>🇮🇹 Versione italiana in fondo · Italian summary at the bottom</i></p>
+<p align="center"><i>🇮🇹 <a href="docs/GUIDA.md">Guida completa in italiano</a> · riassunto in fondo</i></p>
 
 > [!WARNING]
 > **Drive safely.** Reading while driving is distracting. Treat Lyricar like a navigation app and only glance at it, or leave it to your passengers.
@@ -20,6 +20,7 @@ Lyricar is an iOS app that shows the lyrics of the song currently playing on Spo
 - 📞 **Survives phone calls.** Driving Mode keeps running in the background, even through interruptions.
 - 🎚️ **Per-song sync offset.** If one song's lyrics are off, you can fix that song without affecting the others.
 - 🤖 **Shortcuts automations.** Driving Mode can start when CarPlay connects and stop when it disconnects.
+- 🌍 **English and Italian.** Lyricar follows your iPhone's language, or you can pick one in *Settings → Lyricar → Language*.
 - 🩺 **Built-in diagnostics.** An in-app event log helps you find out what happened during a drive.
 - 🔒 **No server, no secrets.** Everything runs on your iPhone. Spotify login uses OAuth PKCE, so no client secret is needed.
 
@@ -34,7 +35,7 @@ Lyricar is an iOS app that shows the lyrics of the song currently playing on Spo
 
 Lyricar asks Spotify every 3 seconds which song is playing and how far into it you are. It downloads the time-stamped lyrics from [LRCLIB](https://lrclib.net), works out which line should be on screen, and updates a Live Activity, which iOS 26 mirrors to CarPlay.
 
-👉 For the full explanation, see **[docs/GUIDE.md](docs/GUIDE.md)**: architecture, why a Live Activity instead of a widget, how the app stays alive in the background, and troubleshooting.
+👉 For the full explanation, see **[docs/GUIDE.md](docs/GUIDE.md)** (🇮🇹 [docs/GUIDA.md](docs/GUIDA.md)): architecture, why a Live Activity instead of a widget, how the app stays alive in the background, and troubleshooting.
 
 ## Requirements
 
@@ -68,7 +69,7 @@ Lyricar asks Spotify every 3 seconds which song is playing and how far into it y
    SPOTIFY_CLIENT_ID = your_client_id
    ```
 3. **Build and run.** Open `Lyricar.xcodeproj`, select your iPhone and press **▶︎ Run**.
-4. **First launch.** Tap **Accedi con Spotify** (Sign in with Spotify), allow location access *while using the app*, and play a song.
+4. **First launch.** Tap **Sign in with Spotify**, allow location access *while using the app*, and play a song.
 
 ## Project structure
 
@@ -77,7 +78,7 @@ App/        iOS app: Spotify login, lyrics engine, Driving Mode, diagnostics UI
 Widget/     WidgetKit widget + Live Activity UI
 Shared/     Code shared by app & widget: Spotify API, LRCLIB client, LRC parser, Keychain, settings
 Config/     Build settings (Base.xcconfig is committed; your Local.xcconfig is git-ignored)
-docs/       Guide
+docs/       Guide (English: GUIDE.md · Italiano: GUIDA.md)
 project.yml XcodeGen project definition (Lyricar.xcodeproj is generated from it)
 ```
 
@@ -92,7 +93,6 @@ xcodegen generate
 
 - **Lyrics availability and accuracy depend on LRCLIB.** If LRCLIB has the lyrics for a different version of a song (radio edit, live, remaster), they can be out of sync. Use the per-song offset to fix them.
 - **Spotify development mode.** Only the accounts listed in your Spotify app's *User Management* can sign in.
-- **The app's interface is in Italian.** Contributions to localize it are welcome.
 - **The background techniques** (silent audio and background location) are fine for personal use, but App Store review would reject them.
 
 ## Privacy
@@ -120,5 +120,6 @@ Lyricar is not affiliated with, endorsed by, or sponsored by Spotify or Apple. L
 **Lyricar** mostra su **CarPlay** il testo sincronizzato della canzone che stai ascoltando su Spotify. Funziona tramite una Live Activity che l'app aggiorna in tempo reale mentre guidi.
 
 - **Cosa serve:** un Mac con Xcode 26, un iPhone con iOS 26, un account Apple Developer e un account Spotify Premium per creare l'app Spotify.
-- **Come si installa:** segui la [guida passo passo](docs/GUIDE.md#setup-step-by-step). È in inglese, ma ogni passaggio indica esattamente dove cliccare. Spiega anche come ottenere il **Client ID Spotify**, il **Team ID Apple** e come scegliere il **Bundle ID**.
+- **Come si installa:** segui la **[guida completa in italiano](docs/GUIDA.md)**. Spiega passo passo come ottenere il **Client ID Spotify** e il **Team ID Apple**, come scegliere il **Bundle ID**, e come risolvere i problemi più comuni.
+- **Lingua:** l'app è in italiano e in inglese e segue la lingua dell'iPhone. Puoi sceglierla anche solo per Lyricar in *Impostazioni → Lyricar → Lingua*.
 - **Sicurezza:** leggi solo con un'occhiata, come faresti con il navigatore.

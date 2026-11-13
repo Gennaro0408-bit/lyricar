@@ -10,8 +10,8 @@ struct LyricarApp: App {
 
 /// "Avvia testi in auto": apre l'app e accende la modalità guida (per l'automazione CarPlay)
 struct StartDrivingIntent: AppIntent {
-    static let title: LocalizedStringResource = "Avvia testi in auto"
-    static let description = IntentDescription("Avvia la modalità guida con i testi su CarPlay.")
+    static let title: LocalizedStringResource = "Start lyrics in the car"
+    static let description = IntentDescription("Turns on Driving Mode with lyrics on CarPlay.")
     static let openAppWhenRun = true
 
     @MainActor
@@ -23,8 +23,8 @@ struct StartDrivingIntent: AppIntent {
 
 /// "Ferma testi in auto": spegne la modalità guida (per l'automazione CarPlay → Disconnessione)
 struct StopDrivingIntent: AppIntent {
-    static let title: LocalizedStringResource = "Ferma testi in auto"
-    static let description = IntentDescription("Termina la modalità guida e la Live Activity.")
+    static let title: LocalizedStringResource = "Stop lyrics in the car"
+    static let description = IntentDescription("Turns off Driving Mode and ends the Live Activity.")
 
     @MainActor
     func perform() async throws -> some IntentResult {
@@ -36,16 +36,16 @@ struct StopDrivingIntent: AppIntent {
 struct LyricarShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: StartDrivingIntent(),
-                    phrases: ["Avvia testi in auto con \(.applicationName)"],
-                    shortTitle: "Avvia testi in auto",
+                    phrases: ["Start lyrics in the car with \(.applicationName)"],
+                    shortTitle: "Start lyrics in the car",
                     systemImageName: "car.fill")
         AppShortcut(intent: StopDrivingIntent(),
-                    phrases: ["Ferma testi in auto con \(.applicationName)"],
-                    shortTitle: "Ferma testi in auto",
+                    phrases: ["Stop lyrics in the car with \(.applicationName)"],
+                    shortTitle: "Stop lyrics in the car",
                     systemImageName: "stop.fill")
         AppShortcut(intent: ResyncLyricsIntent(),
-                    phrases: ["Risincronizza testi in \(.applicationName)"],
-                    shortTitle: "Risincronizza widget",
+                    phrases: ["Resync lyrics in \(.applicationName)"],
+                    shortTitle: "Resync widget",
                     systemImageName: "arrow.clockwise")
     }
 }

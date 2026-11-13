@@ -12,7 +12,7 @@ final class SilentAudio {
     /// Riavvia il motore se iOS l'ha fermato
     func ensureRunning() {
         guard isRunning, !engine.isRunning else { return }
-        onEvent?("motore fermo, riavvio")
+        onEvent?("engine stopped, restarting")
         try? AVAudioSession.sharedInstance().setActive(true)
         restartEngine()
     }
@@ -57,14 +57,14 @@ final class SilentAudio {
         observers.append(nc.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
             guard let raw = note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
                   let type = AVAudioSession.InterruptionType(rawValue: raw) else { return }
-            self?.onEvent?(type == .began ? "interruzione iniziata" : "interruzione finita")
+            self?.onEvent?(type == .began ? "interruption began" : "interruption ended")
             guard type == .ended else { return }
             try? AVAudioSession.sharedInstance().setActive(true)
             self?.restartEngine()
         })
         // Cambio di uscita audio (collegamento/scollegamento CarPlay)
         observers.append(nc.addObserver(forName: .AVAudioEngineConfigurationChange, object: engine, queue: .main) { [weak self] _ in
-            self?.onEvent?("uscita audio cambiata (\(AVAudioSession.sharedInstance().currentRoute.outputs.first?.portType.rawValue ?? "?"))")
+            self?.onEvent?("audio output changed (\(AVAudioSession.sharedInstance().currentRoute.outputs.first?.portType.rawValue ?? "?"))")
             self?.restartEngine()
         })
         observers.append(nc.addObserver(forName: AVAudioSession.mediaServicesWereResetNotification, object: nil, queue: .main) { [weak self] _ in

@@ -1,5 +1,6 @@
 name: Lyricar
 options:
+  developmentLanguage: en
   deploymentTarget:
     iOS: "26.0"
 configFiles:
@@ -8,6 +9,8 @@ configFiles:
 settings:
   base:
     SWIFT_VERSION: "5.0"
+    SWIFT_EMIT_LOC_STRINGS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     CODE_SIGN_STYLE: Automatic
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"
@@ -28,12 +31,14 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Lyricar
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, it]
         CallbackScheme: $(CALLBACK_SCHEME)
         SpotifyClientID: $(SPOTIFY_CLIENT_ID)
         AppGroup: group.$(APP_BUNDLE_ID)
         UILaunchScreen: {}
         UIBackgroundModes: [audio, location]
-        NSLocationWhenInUseUsageDescription: "Durante la guida Lyricar usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata."
+        NSLocationWhenInUseUsageDescription: "While you drive, Lyricar uses your location only to keep running in the background, so the lyrics on CarPlay stay in sync even after a phone call. Your location is never stored or sent anywhere."
         NSSupportsLiveActivities: true
         CFBundleURLTypes:
           - CFBundleURLName: $(APP_BUNDLE_ID)
@@ -51,7 +56,9 @@ targets:
     info:
       path: Widget/Info.plist
       properties:
-        CFBundleDisplayName: Testi
+        CFBundleDisplayName: Lyricar Widget
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, it]
         SpotifyClientID: $(SPOTIFY_CLIENT_ID)
         AppGroup: group.$(APP_BUNDLE_ID)
         NSExtension:

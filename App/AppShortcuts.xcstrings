@@ -1,0 +1,36 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Resync lyrics in ${applicationName}": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risincronizza testi in ${applicationName}"
+          }
+        }
+      }
+    },
+    "Start lyrics in the car with ${applicationName}": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvia testi in auto con ${applicationName}"
+          }
+        }
+      }
+    },
+    "Stop lyrics in the car with ${applicationName}": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ferma testi in auto con ${applicationName}"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
