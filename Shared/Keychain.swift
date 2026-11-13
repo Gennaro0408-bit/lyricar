@@ -9,7 +9,7 @@ struct SpotifyTokens: Codable {
 }
 
 enum TokenStore {
-    private static let service = "com.macchinalyrics.spotify"
+    private static let service = "com.macchinalyrics.spotify" // identificativo interno: cambiarlo farebbe perdere il login
     private static let account = "tokens"
 
     private static var baseQuery: [String: Any] {

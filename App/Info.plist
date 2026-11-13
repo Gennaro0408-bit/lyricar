@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Macchina</string>
+	<string>Lyricar</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,14 +27,16 @@
 			<string>$(APP_BUNDLE_ID)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>macchina</string>
+				<string>$(CALLBACK_SCHEME)</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>CallbackScheme</key>
+	<string>$(CALLBACK_SCHEME)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Durante la guida Macchina usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata.</string>
+	<string>Durante la guida Lyricar usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>SpotifyClientID</key>

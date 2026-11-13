@@ -2,7 +2,7 @@ import Foundation
 
 /// Registro diagnostico su file (Documents/diagnostica.log), leggibile dall'app e via Xcode/devicectl.
 enum EventLog {
-    private static let queue = DispatchQueue(label: "macchina.eventlog")
+    private static let queue = DispatchQueue(label: "lyricar.eventlog")
     private static let maxBytes = 512 * 1024
 
     static var fileURL: URL {

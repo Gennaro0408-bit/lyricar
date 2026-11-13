@@ -240,7 +240,7 @@ final class LyricsEngine: ObservableObject {
 
     private func startActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
-            status = "Attiva le Attività in tempo reale per Macchina in Impostazioni"
+            status = "Attiva le Attività in tempo reale per Lyricar in Impostazioni"
             return
         }
         endActivities()

@@ -1,11 +1,15 @@
-// Copia questo file in Config/Local.xcconfig e inserisci i tuoi valori.
-// Local.xcconfig è nel .gitignore: non finirà mai su GitHub.
+// Copy this file to Config/Local.xcconfig and fill in your own values.
+// Local.xcconfig is git-ignored: it will never be pushed to GitHub.
+// Step-by-step instructions: docs/GUIDE.md
 
-// Team ID Apple (developer.apple.com/account → Membership details)
+// Your Apple Team ID (10 characters) — developer.apple.com/account → Membership details
 DEVELOPMENT_TEAM = ABCDE12345
 
-// Bundle ID univoco a tua scelta (widget e App Group vengono derivati da questo)
-APP_BUNDLE_ID = com.tuonome.macchina
+// A unique bundle ID of your choice (the widget and App Group are derived from it)
+APP_BUNDLE_ID = com.yourname.lyricar
 
-// Client ID dell'app creata su developer.spotify.com/dashboard
-SPOTIFY_CLIENT_ID = incolla_qui_il_client_id
+// Client ID of the app you created on developer.spotify.com/dashboard
+SPOTIFY_CLIENT_ID = paste_your_client_id_here
+
+// Optional: login callback scheme. The Spotify Redirect URI must be <scheme>://callback
+// CALLBACK_SCHEME = lyricar

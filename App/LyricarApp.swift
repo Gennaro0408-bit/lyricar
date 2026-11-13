@@ -2,7 +2,7 @@ import SwiftUI
 import AppIntents
 
 @main
-struct MacchinaApp: App {
+struct LyricarApp: App {
     var body: some Scene {
         WindowGroup { ContentView() }
     }
@@ -33,7 +33,7 @@ struct StopDrivingIntent: AppIntent {
     }
 }
 
-struct MacchinaShortcuts: AppShortcutsProvider {
+struct LyricarShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: StartDrivingIntent(),
                     phrases: ["Avvia testi in auto con \(.applicationName)"],

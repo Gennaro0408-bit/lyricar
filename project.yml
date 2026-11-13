@@ -1,4 +1,4 @@
-name: Macchina
+name: Lyricar
 options:
   deploymentTarget:
     iOS: "26.0"
@@ -12,31 +12,32 @@ settings:
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"
 targets:
-  Macchina:
+  Lyricar:
     type: application
     platform: iOS
     sources: [App, Shared]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID)
-        CODE_SIGN_ENTITLEMENTS: App/Macchina.entitlements
+        CODE_SIGN_ENTITLEMENTS: App/Lyricar.entitlements
         TARGETED_DEVICE_FAMILY: "1"
-        INFOPLIST_KEY_CFBundleDisplayName: Macchina
+        INFOPLIST_KEY_CFBundleDisplayName: Lyricar
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
     info:
       path: App/Info.plist
       properties:
-        CFBundleDisplayName: Macchina
+        CFBundleDisplayName: Lyricar
+        CallbackScheme: $(CALLBACK_SCHEME)
         SpotifyClientID: $(SPOTIFY_CLIENT_ID)
         AppGroup: group.$(APP_BUNDLE_ID)
         UILaunchScreen: {}
         UIBackgroundModes: [audio, location]
-        NSLocationWhenInUseUsageDescription: "Durante la guida Macchina usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata."
+        NSLocationWhenInUseUsageDescription: "Durante la guida Lyricar usa la posizione solo per restare attiva in background, così i testi su CarPlay restano sincronizzati anche dopo una telefonata. La posizione non viene salvata né inviata."
         NSSupportsLiveActivities: true
         CFBundleURLTypes:
           - CFBundleURLName: $(APP_BUNDLE_ID)
-            CFBundleURLSchemes: [macchina]
+            CFBundleURLSchemes: [$(CALLBACK_SCHEME)]
     dependencies:
       - target: LyricsWidget
   LyricsWidget:

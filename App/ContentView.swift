@@ -13,7 +13,7 @@ struct ContentView: View {
             Group {
                 if engine.loggedIn { player } else { login }
             }
-            .navigationTitle("Macchina")
+            .navigationTitle("Lyricar")
             .toolbar {
                 if engine.loggedIn {
                     Menu {

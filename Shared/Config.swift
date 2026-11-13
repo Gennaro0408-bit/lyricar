@@ -3,8 +3,9 @@ import Foundation
 enum Config {
     /// Client ID dell'app creata su developer.spotify.com (da Config/Local.xcconfig)
     static let spotifyClientID = Bundle.main.object(forInfoDictionaryKey: "SpotifyClientID") as? String ?? ""
-    static let redirectURI = "macchina://callback"
-    static let callbackScheme = "macchina"
+    /// Schema dell'URL di ritorno dal login (da Config/*.xcconfig → CALLBACK_SCHEME)
+    static let callbackScheme = Bundle.main.object(forInfoDictionaryKey: "CallbackScheme") as? String ?? "lyricar"
+    static var redirectURI: String { "\(callbackScheme)://callback" }
     static let scopes = "user-read-currently-playing user-read-playback-state"
 
     /// Deve coincidere con l'App Group negli entitlements di app e widget

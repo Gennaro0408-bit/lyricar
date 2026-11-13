@@ -1,8 +1,9 @@
-// Impostazioni condivise. NON inserire qui dati personali:
-// copia Config/Local.xcconfig.example in Config/Local.xcconfig (ignorato da git) e compila quello.
+// Shared defaults. Do NOT put personal data here:
+// copy Config/Local.xcconfig.example to Config/Local.xcconfig (git-ignored) and edit that one.
 
-APP_BUNDLE_ID = com.example.macchina
+APP_BUNDLE_ID = com.example.lyricar
 SPOTIFY_CLIENT_ID =
 DEVELOPMENT_TEAM =
+CALLBACK_SCHEME = lyricar
 
 #include? "Local.xcconfig"

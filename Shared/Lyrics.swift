@@ -88,7 +88,7 @@ enum LyricsService {
         var comps = URLComponents(string: "https://lrclib.net/api/\(path)")!
         comps.queryItems = items
         var req = URLRequest(url: comps.url!)
-        req.setValue("Macchina Lyrics 1.0 (uso personale)", forHTTPHeaderField: "User-Agent")
+        req.setValue("Lyricar 1.0 (https://github.com/Gennaro0408-bit/lyricar)", forHTTPHeaderField: "User-Agent")
         req.timeoutInterval = 10
         let (data, resp) = try await URLSession.shared.data(for: req)
         return (data, (resp as? HTTPURLResponse)?.statusCode ?? 0)
