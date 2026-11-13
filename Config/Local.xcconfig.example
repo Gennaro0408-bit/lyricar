@@ -1,0 +1,11 @@
+// Copia questo file in Config/Local.xcconfig e inserisci i tuoi valori.
+// Local.xcconfig è nel .gitignore: non finirà mai su GitHub.
+
+// Team ID Apple (developer.apple.com/account → Membership details)
+DEVELOPMENT_TEAM = ABCDE12345
+
+// Bundle ID univoco a tua scelta (widget e App Group vengono derivati da questo)
+APP_BUNDLE_ID = com.tuonome.macchina
+
+// Client ID dell'app creata su developer.spotify.com/dashboard
+SPOTIFY_CLIENT_ID = incolla_qui_il_client_id

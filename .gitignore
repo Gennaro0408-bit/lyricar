@@ -1,0 +1,14 @@
+# Dati personali (Team ID, Client ID Spotify, Bundle ID)
+Config/Local.xcconfig
+
+# Xcode
+xcuserdata/
+DerivedData/
+build/
+*.xcuserstate
+*.mobileprovision
+*.p12
+*.cer
+
+# macOS
+.DS_Store

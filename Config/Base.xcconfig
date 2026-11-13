@@ -1,0 +1,8 @@
+// Impostazioni condivise. NON inserire qui dati personali:
+// copia Config/Local.xcconfig.example in Config/Local.xcconfig (ignorato da git) e compila quello.
+
+APP_BUNDLE_ID = com.example.macchina
+SPOTIFY_CLIENT_ID =
+DEVELOPMENT_TEAM =
+
+#include? "Local.xcconfig"
