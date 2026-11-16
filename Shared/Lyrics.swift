@@ -46,7 +46,8 @@ enum LyricsService {
     private static var cacheDir: URL? {
         FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: Config.appGroup)?
-            .appendingPathComponent("Library/Caches/lyrics", isDirectory: true)
+            // v2: la cache precedente può contenere testi di versioni sbagliate
+            .appendingPathComponent("Library/Caches/lyrics-v2", isDirectory: true)
     }
 
     private static func cacheURL(for track: Track) -> URL? {
@@ -61,8 +62,13 @@ enum LyricsService {
             return cached
         }
 
-        var result = try await fetchExact(track)
-        if result == nil || result?.synced.isEmpty == true, let alt = try await fetchSearch(track) { result = alt }
+        let exact = try await fetchExact(track)
+        let found = (try? await search(track)) ?? []
+        var result = pick(exact: exact, found: found, for: track) ?? exact
+        if let r = result, !r.synced.isEmpty, !fits(r.synced, track) {
+            // Meglio nessun testo sincronizzato che un testo sfasato
+            result = Lyrics(synced: [], plain: r.plain, instrumental: r.instrumental, sourceDuration: r.sourceDuration)
+        }
         if let result, let url = cacheURL(for: track) {
             try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             try? JSONEncoder().encode(result).write(to: url)
@@ -70,7 +76,48 @@ enum LyricsService {
         return result
     }
 
+    /// Su LRCLIB la durata dichiarata non è affidabile: un testo con righe oltre la fine del brano
+    /// su Spotify è di un'altra versione
+    static func fits(_ lines: [LyricLine], _ t: Track) -> Bool {
+        guard let last = lines.last else { return false }
+        return last.time <= Double(t.durationMs) / 1000 + 1
+    }
+
+    /// Sceglie la sincronizzazione per la durata del brano su Spotify. Su LRCLIB una sincronizzazione
+    /// viene spesso copiata su versioni di durata diversa (es. senza l'intro): se compare più su
+    /// versioni di durata diversa che su questa, è una copia e si scarta.
+    static func pick(exact: Lyrics?, found: [Lyrics], for t: Track) -> Lyrics? {
+        let target = Double(t.durationMs) / 1000
+        func near(_ l: Lyrics) -> Bool { abs((l.sourceDuration ?? target) - target) < 5 }
+        func sameSync(_ a: Lyrics, _ b: Lyrics) -> Bool {
+            guard let a0 = a.synced.first, let a1 = a.synced.last,
+                  let b0 = b.synced.first, let b1 = b.synced.last else { return false }
+            return abs(a0.time - b0.time) < 0.5 && abs(a1.time - b1.time) < 0.5
+        }
+        let candidates = ([exact].compactMap { $0 } + found).filter { near($0) && fits($0.synced, t) }
+        let native = candidates.filter { c in
+            let same = found.filter { sameSync($0, c) }
+            let nearCount = same.filter(near).count
+            return nearCount >= same.count - nearCount
+        }
+        // A parità di durata vince il primo, cioè la ricerca esatta
+        return (native.isEmpty ? candidates : native)
+            .min { abs(($0.sourceDuration ?? target) - target) < abs(($1.sourceDuration ?? target) - target) }
+    }
+
+    /// "Te - Remastered 2011" / "Te (feat. X)" → "te", per confrontare i titoli
+    static func baseTitle(_ s: String) -> String {
+        var s = s
+        if let r = s.range(of: " - ") { s = String(s[..<r.lowerBound]) }
+        if let r = s.range(of: #"\s*[\(\[](feat|ft|with)\b.*$"#, options: [.regularExpression, .caseInsensitive]) {
+            s = String(s[..<r.lowerBound])
+        }
+        return s.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+            .trimmingCharacters(in: .whitespaces)
+    }
+
     private struct Record: Decodable {
+        let trackName: String?
         let instrumental: Bool?
         let plainLyrics: String?
         let syncedLyrics: String?
@@ -106,18 +153,15 @@ enum LyricsService {
         return try? JSONDecoder().decode(Record.self, from: data).lyrics
     }
 
-    /// Ricerca più permissiva: sceglie il risultato sincronizzato con la durata più vicina
-    private static func fetchSearch(_ t: Track) async throws -> Lyrics? {
+    /// Tutte le versioni con lo stesso titolo (anche di durata diversa: servono a `pick` per riconoscere le copie)
+    private static func search(_ t: Track) async throws -> [Lyrics] {
         let (data, code) = try await get("search", [
-            .init(name: "track_name", value: t.name),
+            .init(name: "track_name", value: baseTitle(t.name)),
             .init(name: "artist_name", value: t.artist),
         ])
-        guard code == 200, let records = try? JSONDecoder().decode([Record].self, from: data) else { return nil }
-        let target = Double(t.durationMs) / 1000
-        let best = records
-            .filter { $0.syncedLyrics != nil && abs(($0.duration ?? target) - target) < 5 }
-            .min { abs(($0.duration ?? 0) - target) < abs(($1.duration ?? 0) - target) }
-        return (best ?? records.first)?.lyrics
+        guard code == 200, let records = try? JSONDecoder().decode([Record].self, from: data) else { return [] }
+        let title = baseTitle(t.name)
+        return records.filter { baseTitle($0.trackName ?? "") == title }.map(\.lyrics)
     }
 }
 
